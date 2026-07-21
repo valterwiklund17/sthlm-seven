@@ -8,6 +8,8 @@ export function RegistrationSection() {
   const [teamName, setTeamName] = useState('')
   const [captain, setCaptain] = useState('')
   const [email, setEmail] = useState('')
+  const [promoCode, setPromoCode] = useState('')
+  const [ageVerified, setAgeVerified] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -119,6 +121,41 @@ export function RegistrationSection() {
               onChange={(e) => setEmail(e.target.value)}
               className={inputClassName}
               placeholder="namn@email.se"
+            />
+          </div>
+
+          <label className="flex cursor-pointer items-start gap-3">
+            <input
+              id="age-verification"
+              name="age-verification"
+              type="checkbox"
+              required
+              disabled={isSubmitting}
+              checked={ageVerified}
+              onChange={(e) => setAgeVerified(e.target.checked)}
+              className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-amber-500 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60"
+            />
+            <span className="text-sm leading-relaxed text-slate-900">
+              Jag intygar att snittåldern i laget är 16+ (Krävs)
+            </span>
+          </label>
+
+          <div>
+            <label
+              htmlFor="rabattkod"
+              className="mb-2 block text-sm font-semibold text-slate-900"
+            >
+              Rabattkod (Frivilligt)
+            </label>
+            <input
+              id="rabattkod"
+              name="rabattkod"
+              type="text"
+              disabled={isSubmitting}
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+              className={inputClassName}
+              placeholder="Ange rabattkod"
             />
           </div>
 

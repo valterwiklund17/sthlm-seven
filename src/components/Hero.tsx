@@ -6,7 +6,8 @@ export function Hero() {
           Sthlm Seven.
         </h1>
         <p className="mt-6 max-w-xl text-lg font-medium leading-snug text-slate-900 md:mt-8 md:text-xl">
-          Stockholms mest exklusiva 7v7-turnering. 16 lag. En mästare.
+          Stockholms mest exklusiva 7v7-turnering. Öppen amatörnivå för
+          kompisgäng och korpenlag. 16 lag. En mästare.
         </p>
         <a
           href="#anmalan"

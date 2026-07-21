@@ -9,8 +9,8 @@ type InfoCard = {
 const cards: InfoCard[] = [
   {
     icon: MapPin,
-    title: '22–24 Augusti',
-    description: 'Zinkensdamms IP.',
+    title: '14 Augusti, 09:00 - 16:00',
+    description: 'Mälarhöjdens IP.',
   },
   {
     icon: Shield,
