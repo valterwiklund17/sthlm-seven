@@ -5,12 +5,13 @@ type NavbarProps = {
 export function Navbar({ hideCta = false }: NavbarProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-sm">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 md:px-8">
-        <a
-          href="/"
-          className="font-display text-lg tracking-tight text-black md:text-xl"
-        >
-          STHLM SEVEN
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3 md:px-8">
+        <a href="/" className="inline-flex items-center" aria-label="STHLM SEVEN">
+          <img
+            src="/sthlmsevenlogo.jpg"
+            alt="STHLM SEVEN"
+            className="h-12 w-auto object-contain md:h-14"
+          />
         </a>
         {!hideCta && (
           <a
