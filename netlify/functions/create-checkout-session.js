@@ -47,8 +47,14 @@ async function createCheckoutSession(body, origin) {
     return { error: 'Något gick fel vid anmälan. Försök igen.', status: 500 }
   }
 
+  console.log('[create-checkout-session] Registered teams count:', count)
+
   if ((count ?? 0) >= 16) {
-    return { error: 'Turneringen är fullbokad', status: 403 }
+    console.error(
+      '[create-checkout-session] Tournament full — aborting before Stripe',
+      { count },
+    )
+    return { error: 'Turneringen är fullbokad', status: 400 }
   }
 
   const stripe = new Stripe(getEnv('STRIPE_SECRET_KEY'))

@@ -62,7 +62,7 @@ export async function createCheckoutSession(
   }
 
   if ((count ?? 0) >= 16) {
-    return { error: 'Turneringen är fullbokad', status: 403 }
+    return { error: 'Turneringen är fullbokad', status: 400 }
   }
 
   const stripe = new Stripe(getEnv('STRIPE_SECRET_KEY'))
