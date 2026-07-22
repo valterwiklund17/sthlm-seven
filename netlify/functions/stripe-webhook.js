@@ -1,13 +1,9 @@
-import type { Handler, HandlerEvent, HandlerResponse } from '@netlify/functions'
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 
-function getHeader(
-  headers: HandlerEvent['headers'],
-  name: string,
-): string | undefined {
+function getHeader(headers, name) {
   const target = name.toLowerCase()
-  for (const [key, value] of Object.entries(headers)) {
+  for (const [key, value] of Object.entries(headers || {})) {
     if (key.toLowerCase() === target && typeof value === 'string') {
       return value
     }
@@ -19,7 +15,7 @@ function getHeader(
  * Netlify may base64-encode the request body. Stripe signature verification
  * requires the exact raw UTF-8 payload Stripe sent.
  */
-function extractRawBody(event: HandlerEvent): string {
+function extractRawBody(event) {
   console.log('[stripe-webhook] Extracting raw body', {
     isBase64Encoded: event.isBase64Encoded,
     bodyPresent: Boolean(event.body),
@@ -64,7 +60,7 @@ function getSupabaseClient() {
   return createClient(supabaseUrl, supabaseKey)
 }
 
-export const handler: Handler = async (event): Promise<HandlerResponse> => {
+export async function handler(event) {
   console.log('[stripe-webhook] Incoming request', {
     method: event.httpMethod,
     path: event.path,
@@ -124,7 +120,7 @@ export const handler: Handler = async (event): Promise<HandlerResponse> => {
 
     const stripe = new Stripe(stripeSecret)
 
-    let stripeEvent: Stripe.Event
+    let stripeEvent
     try {
       // Pass the exact raw string body — do not JSON.parse before this.
       stripeEvent = stripe.webhooks.constructEvent(
@@ -159,7 +155,7 @@ export const handler: Handler = async (event): Promise<HandlerResponse> => {
       }
     }
 
-    const session = stripeEvent.data.object as Stripe.Checkout.Session
+    const session = stripeEvent.data.object
     const metadata = session.metadata ?? {}
 
     console.log('[stripe-webhook] Extracting metadata', {
