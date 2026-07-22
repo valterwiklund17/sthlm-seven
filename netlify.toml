@@ -6,14 +6,27 @@
 [functions]
   node_bundler = "esbuild"
 
-# Silent rewrite (status 200), not a 301/308 redirect.
-# Must come before the SPA fallback.
+# Explicit rewrite for checkout — status 200 = silent proxy, not 301/308.
+[[redirects]]
+  from = "/api/create-checkout-session"
+  to = "/.netlify/functions/create-checkout-session"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/webhooks/stripe"
+  to = "/.netlify/functions/webhooks/stripe"
+  status = 200
+  force = true
+
+# Catch-all for any other /api/* routes.
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
   force = true
 
+# SPA fallback (after API rewrites).
 [[redirects]]
   from = "/*"
   to = "/index.html"
