@@ -65,7 +65,7 @@ async function handleCreateCheckout(
     const env = loadProcessEnv(mode)
 
     const { createCheckoutSession } = await import(
-      './api/_lib/createCheckoutSession.ts'
+      './netlify/functions/shared/checkout.ts'
     )
 
     const origin =
@@ -111,7 +111,7 @@ async function handleStripeWebhookRoute(
     loadProcessEnv(mode)
     const rawBody = await readRawBody(req)
     const { handleStripeWebhook } = await import(
-      './api/_lib/createCheckoutSession.ts'
+      './netlify/functions/shared/checkout.ts'
     )
     const result = await handleStripeWebhook(
       rawBody,

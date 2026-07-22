@@ -23,6 +23,7 @@ function getEnv(name: string): string {
 function getSupabaseClient() {
   const supabaseUrl =
     process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL
+  // Prefer service role for secure server-side inserts (webhook).
   const supabaseKey =
     process.env.SUPABASE_SERVICE_ROLE_KEY ??
     process.env.SUPABASE_ANON_KEY ??
@@ -41,7 +42,12 @@ export async function createCheckoutSession(
 ): Promise<CreateCheckoutResult> {
   const { team_name, captain_name, email, phone } = body
 
-  if (!team_name?.trim() || !captain_name?.trim() || !email?.trim() || !phone?.trim()) {
+  if (
+    !team_name?.trim() ||
+    !captain_name?.trim() ||
+    !email?.trim() ||
+    !phone?.trim()
+  ) {
     return { error: 'Alla fält måste fyllas i.', status: 400 }
   }
 
