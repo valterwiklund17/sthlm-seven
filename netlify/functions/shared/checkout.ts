@@ -109,7 +109,15 @@ export async function handleStripeWebhook(
   rawBody: Buffer | string,
   signature: string | string[] | undefined,
 ): Promise<{ status: number; body: string }> {
+  console.log('[stripe-webhook:local] Starting verification', {
+    hasSignature: Boolean(signature),
+    bodyType: typeof rawBody,
+    bodyLength:
+      typeof rawBody === 'string' ? rawBody.length : rawBody.byteLength,
+  })
+
   if (!signature || Array.isArray(signature)) {
+    console.error('[stripe-webhook:local] Missing stripe-signature')
     return { status: 400, body: 'Missing Stripe signature' }
   }
 
@@ -119,8 +127,12 @@ export async function handleStripeWebhook(
   let event: Stripe.Event
   try {
     event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret)
+    console.log('[stripe-webhook:local] Signature verification succeeded', {
+      eventType: event.type,
+      eventId: event.id,
+    })
   } catch (error) {
-    console.error('Stripe webhook signature verification failed:', error)
+    console.error('[stripe-webhook:local] Signature verification failed:', error)
     return { status: 400, body: 'Invalid signature' }
   }
 
@@ -128,13 +140,18 @@ export async function handleStripeWebhook(
     const session = event.data.object as Stripe.Checkout.Session
     const metadata = session.metadata ?? {}
 
+    console.log('[stripe-webhook:local] Metadata extracted', {
+      sessionId: session.id,
+      metadata,
+    })
+
     const team_name = metadata.team_name?.trim()
     const captain_name = metadata.captain_name?.trim()
     const email = metadata.email?.trim()
     const phone = metadata.phone?.trim()
 
     if (!team_name || !captain_name || !email || !phone) {
-      console.error('Missing team metadata on checkout.session.completed', {
+      console.error('[stripe-webhook:local] Missing team metadata', {
         sessionId: session.id,
         metadata,
       })
@@ -142,15 +159,23 @@ export async function handleStripeWebhook(
     }
 
     const supabase = getSupabaseClient()
-    const { error: insertError } = await supabase.from('teams').insert({
-      team_name,
-      captain_name,
-      email,
-      phone,
+    const { data, error: insertError } = await supabase
+      .from('teams')
+      .insert({
+        team_name,
+        captain_name,
+        email,
+        phone,
+      })
+      .select()
+
+    console.log('[stripe-webhook:local] Supabase insert response', {
+      data,
+      error: insertError,
     })
 
     if (insertError) {
-      console.error('Failed to insert paid team:', insertError)
+      console.error('[stripe-webhook:local] Failed to insert paid team:', insertError)
       return { status: 500, body: 'Database insert failed' }
     }
   }
