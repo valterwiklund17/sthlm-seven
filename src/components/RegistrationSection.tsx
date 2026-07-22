@@ -1,47 +1,80 @@
 import { useState, type FormEvent } from 'react'
-import { supabase } from '../lib/supabase'
 
 const inputClassName =
   'w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition-colors placeholder:text-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60'
 
+const inputErrorClassName =
+  'w-full rounded-lg border border-red-300 bg-white px-4 py-3 text-slate-900 outline-none transition-colors placeholder:text-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60'
+
+const REQUIRED_FIELD_MSG = 'Detta fält är obligatoriskt'
+const CHECKBOX_MSG = 'Du måste godkänna villkoren för att fortsätta'
+
+type FieldErrors = {
+  teamName?: string
+  captain?: string
+  phone?: string
+  email?: string
+  ageVerified?: string
+}
+
 export function RegistrationSection() {
   const [teamName, setTeamName] = useState('')
   const [captain, setCaptain] = useState('')
+  const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
-  const [promoCode, setPromoCode] = useState('')
   const [ageVerified, setAgeVerified] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
+
+  function validate(): boolean {
+    const nextErrors: FieldErrors = {}
+
+    if (!teamName.trim()) nextErrors.teamName = REQUIRED_FIELD_MSG
+    if (!captain.trim()) nextErrors.captain = REQUIRED_FIELD_MSG
+    if (!phone.trim()) nextErrors.phone = REQUIRED_FIELD_MSG
+    if (!email.trim()) nextErrors.email = REQUIRED_FIELD_MSG
+    if (!ageVerified) nextErrors.ageVerified = CHECKBOX_MSG
+
+    setFieldErrors(nextErrors)
+    return Object.keys(nextErrors).length === 0
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setIsSubmitting(true)
     setErrorMsg('')
 
-    const { data, error } = await supabase
-      .from('teams')
-      .insert({
-        team_name: teamName,
-        captain_name: captain,
-        email: email,
+    if (!validate()) {
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          team_name: teamName,
+          captain_name: captain,
+          email,
+          phone,
+        }),
       })
-      .select()
 
-    if (error) {
+      const payload = (await response.json()) as { url?: string; error?: string }
+
+      if (!response.ok || !payload.url) {
+        setErrorMsg(payload.error || 'Något gick fel vid anmälan. Försök igen.')
+        setIsSubmitting(false)
+        return
+      }
+
+      window.location.href = payload.url
+    } catch {
       setErrorMsg('Något gick fel vid anmälan. Försök igen.')
       setIsSubmitting(false)
-      return
     }
-
-    const teamId = data?.[0]?.id
-    if (!teamId) {
-      setErrorMsg('Något gick fel vid anmälan. Försök igen.')
-      setIsSubmitting(false)
-      return
-    }
-
-    const stripeUrl = `https://buy.stripe.com/test_dRmaEZfDgf8Egq5ang6kg00?client_reference_id=${teamId}`
-    window.location.href = stripeUrl
   }
 
   return (
@@ -54,7 +87,7 @@ export function RegistrationSection() {
           Begränsat till 16 lag. Anmälningsavgift 1000&nbsp;kr.
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-10 space-y-6">
+        <form noValidate onSubmit={handleSubmit} className="mt-10 space-y-6">
           {errorMsg && (
             <div
               role="alert"
@@ -75,13 +108,21 @@ export function RegistrationSection() {
               id="lagnamn"
               name="lagnamn"
               type="text"
-              required
               disabled={isSubmitting}
               value={teamName}
-              onChange={(e) => setTeamName(e.target.value)}
-              className={inputClassName}
+              onChange={(e) => {
+                setTeamName(e.target.value)
+                if (fieldErrors.teamName) {
+                  setFieldErrors((prev) => ({ ...prev, teamName: undefined }))
+                }
+              }}
+              aria-invalid={Boolean(fieldErrors.teamName)}
+              className={fieldErrors.teamName ? inputErrorClassName : inputClassName}
               placeholder="Ditt lags namn"
             />
+            {fieldErrors.teamName && (
+              <p className="mt-2 text-sm text-red-600">{fieldErrors.teamName}</p>
+            )}
           </div>
 
           <div>
@@ -95,13 +136,49 @@ export function RegistrationSection() {
               id="lagkapten"
               name="lagkapten"
               type="text"
-              required
               disabled={isSubmitting}
               value={captain}
-              onChange={(e) => setCaptain(e.target.value)}
-              className={inputClassName}
+              onChange={(e) => {
+                setCaptain(e.target.value)
+                if (fieldErrors.captain) {
+                  setFieldErrors((prev) => ({ ...prev, captain: undefined }))
+                }
+              }}
+              aria-invalid={Boolean(fieldErrors.captain)}
+              className={fieldErrors.captain ? inputErrorClassName : inputClassName}
               placeholder="Fullständigt namn"
             />
+            {fieldErrors.captain && (
+              <p className="mt-2 text-sm text-red-600">{fieldErrors.captain}</p>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="telefonnummer"
+              className="mb-2 block text-sm font-semibold text-slate-900"
+            >
+              Telefonnummer
+            </label>
+            <input
+              id="telefonnummer"
+              name="telefonnummer"
+              type="tel"
+              disabled={isSubmitting}
+              value={phone}
+              onChange={(e) => {
+                setPhone(e.target.value)
+                if (fieldErrors.phone) {
+                  setFieldErrors((prev) => ({ ...prev, phone: undefined }))
+                }
+              }}
+              aria-invalid={Boolean(fieldErrors.phone)}
+              className={fieldErrors.phone ? inputErrorClassName : inputClassName}
+              placeholder="07X-XXX XX XX"
+            />
+            {fieldErrors.phone && (
+              <p className="mt-2 text-sm text-red-600">{fieldErrors.phone}</p>
+            )}
           </div>
 
           <div>
@@ -115,48 +192,53 @@ export function RegistrationSection() {
               id="email"
               name="email"
               type="email"
-              required
               disabled={isSubmitting}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={inputClassName}
+              onChange={(e) => {
+                setEmail(e.target.value)
+                if (fieldErrors.email) {
+                  setFieldErrors((prev) => ({ ...prev, email: undefined }))
+                }
+              }}
+              aria-invalid={Boolean(fieldErrors.email)}
+              className={fieldErrors.email ? inputErrorClassName : inputClassName}
               placeholder="namn@email.se"
             />
+            {fieldErrors.email && (
+              <p className="mt-2 text-sm text-red-600">{fieldErrors.email}</p>
+            )}
           </div>
 
-          <label className="flex cursor-pointer items-start gap-3">
-            <input
-              id="age-verification"
-              name="age-verification"
-              type="checkbox"
-              required
-              disabled={isSubmitting}
-              checked={ageVerified}
-              onChange={(e) => setAgeVerified(e.target.checked)}
-              className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-amber-500 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60"
-            />
-            <span className="text-sm leading-relaxed text-slate-900">
-              Jag intygar att snittåldern i laget är 16+ (Krävs)
-            </span>
-          </label>
-
           <div>
-            <label
-              htmlFor="rabattkod"
-              className="mb-2 block text-sm font-semibold text-slate-900"
-            >
-              Rabattkod (Frivilligt)
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                id="age-verification"
+                name="age-verification"
+                type="checkbox"
+                disabled={isSubmitting}
+                checked={ageVerified}
+                onChange={(e) => {
+                  setAgeVerified(e.target.checked)
+                  if (fieldErrors.ageVerified) {
+                    setFieldErrors((prev) => ({
+                      ...prev,
+                      ageVerified: undefined,
+                    }))
+                  }
+                }}
+                aria-invalid={Boolean(fieldErrors.ageVerified)}
+                className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-amber-500 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+              <span className="text-sm leading-relaxed text-slate-900">
+                Jag intygar att snittåldern i laget är 16+ och att allt
+                deltagande sker på egen risk (Krävs)
+              </span>
             </label>
-            <input
-              id="rabattkod"
-              name="rabattkod"
-              type="text"
-              disabled={isSubmitting}
-              value={promoCode}
-              onChange={(e) => setPromoCode(e.target.value)}
-              className={inputClassName}
-              placeholder="Ange rabattkod"
-            />
+            {fieldErrors.ageVerified && (
+              <p className="mt-2 text-sm text-red-600">
+                {fieldErrors.ageVerified}
+              </p>
+            )}
           </div>
 
           <button
