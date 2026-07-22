@@ -1,6 +1,30 @@
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
+import { existsSync, readFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+function getLogoAttachment() {
+  const candidates = [
+    join(dirname(fileURLToPath(import.meta.url)), 'assets', 'sthlmsevenlogo.jpg'),
+    join(process.cwd(), 'netlify/functions/assets/sthlmsevenlogo.jpg'),
+    join(process.cwd(), 'assets', 'sthlmsevenlogo.jpg'),
+  ]
+
+  for (const filepath of candidates) {
+    if (existsSync(filepath)) {
+      console.log('[stripe-webhook] Found logo at', filepath)
+      return {
+        filename: 'sthlmsevenlogo.jpg',
+        content: readFileSync(filepath),
+      }
+    }
+  }
+
+  console.error('[stripe-webhook] Logo file not found', { candidates })
+  return null
+}
 
 function getHeader(headers, name) {
   const target = name.toLowerCase()
@@ -222,8 +246,9 @@ export async function handler(event) {
         const resend = new Resend(resendApiKey)
         console.log('[stripe-webhook] Sending confirmation email to', email)
 
-        const emailResult = await resend.emails.send({
-          from: 'Sthlm Seven <onboarding@resend.dev>',
+        const logoAttachment = getLogoAttachment()
+        const emailPayload = {
+          from: 'Sthlm Seven <info@sthlmseven.se>',
           to: email,
           subject: 'Anmälan bekräftad - Sthlm Seven',
           text: [
@@ -231,12 +256,26 @@ export async function handler(event) {
             '',
             `Tack för er anmälan! Laget ${team_name} har nu säkrat en av de 16 platserna till Sthlm Seven.`,
             '',
-            'Vi ses på Mälarhöjdens IP.',
+            'Turneringen spelas den 14 augusti på Mälarhöjdens IP.',
+            '',
+            'Vi ses där!',
             '',
             'Vänliga hälsningar,',
             'Sthlm Seven',
           ].join('\n'),
-        })
+          ...(logoAttachment
+            ? {
+                attachments: [
+                  {
+                    filename: logoAttachment.filename,
+                    content: logoAttachment.content,
+                  },
+                ],
+              }
+            : {}),
+        }
+
+        const emailResult = await resend.emails.send(emailPayload)
 
         console.log('[stripe-webhook] Resend response', emailResult)
       }
