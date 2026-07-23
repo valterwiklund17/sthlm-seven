@@ -27,13 +27,28 @@ export function Navbar({ hideCta = false }: NavbarProps) {
             </a>
           )}
         </div>
-        <div className="flex items-center gap-1.5 text-[10px] text-gray-500 md:gap-2 md:text-xs">
-          <span className="leading-none">Powered by AllPlay</span>
-          <img
-            src="/allplay-logo.png"
-            alt="AllPlay"
-            className="h-4 w-auto object-contain md:h-5"
-          />
+        <div className="flex flex-col items-end">
+          <div className="flex items-center gap-1.5 text-[10px] text-gray-500 md:gap-2 md:text-xs">
+            <span className="leading-none">Powered by AllPlay</span>
+            <img
+              src="/allplay-logo.png"
+              alt="AllPlay"
+              className="h-4 w-auto object-contain md:h-5"
+            />
+          </div>
+          <a
+            href="https://getallplay.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-1.5 inline-flex transition-opacity hover:opacity-80 md:mt-2"
+            aria-label="Ladda ner AllPlay i App Store"
+          >
+            <img
+              src="https://mukmpfrvtiiebzpmjpwg.supabase.co/storage/v1/object/public/assets/app-store-sv.png"
+              alt="Ladda ner i App Store"
+              className="h-7 w-auto object-contain md:h-8"
+            />
+          </a>
         </div>
       </nav>
     </header>
