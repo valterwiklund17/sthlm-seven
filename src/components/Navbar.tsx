@@ -27,7 +27,7 @@ export function Navbar({ hideCta = false }: NavbarProps) {
             </a>
           )}
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-end gap-1">
           <div className="flex items-center gap-1.5 text-[10px] text-gray-500 md:gap-2 md:text-xs">
             <span className="leading-none">Powered by AllPlay</span>
             <img
@@ -46,7 +46,7 @@ export function Navbar({ hideCta = false }: NavbarProps) {
             <img
               src="https://mukmpfrvtiiebzpmjpwg.supabase.co/storage/v1/object/public/assets/app-store-sv.png"
               alt="Ladda ner i App Store"
-              className="mt-2 h-8 w-auto object-contain transition-opacity hover:opacity-80 md:h-10"
+              className="h-8 w-auto object-contain transition-opacity hover:opacity-80 md:h-10"
             />
           </a>
         </div>
