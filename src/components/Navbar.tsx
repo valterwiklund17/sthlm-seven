@@ -27,7 +27,7 @@ export function Navbar({ hideCta = false }: NavbarProps) {
             </a>
           )}
         </div>
-        <div className="flex flex-col items-end justify-center gap-2">
+        <div className="flex flex-col items-center justify-center gap-2">
           <div className="flex items-center gap-1.5 text-[10px] text-gray-500 md:gap-2 md:text-xs">
             <span className="leading-none">Powered by AllPlay</span>
             <img
@@ -44,7 +44,7 @@ export function Navbar({ hideCta = false }: NavbarProps) {
             <img
               src={`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/app-store-sv.png`}
               alt="Hämta i App Store"
-              className="h-8 transition-opacity hover:opacity-80 md:h-10"
+              className="mt-0.5 h-8 transition-opacity hover:opacity-80 md:h-10"
             />
           </a>
         </div>
