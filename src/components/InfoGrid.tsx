@@ -15,7 +15,7 @@ const cards: InfoCard[] = [
   {
     icon: Shield,
     title: '7v7 Format',
-    description: 'Gruppspel & Slutspel. Officiella domare.',
+    description: '4 grupper. 15 min gruppspel, 20 min slutspel. Officiella domare.',
   },
   {
     icon: Trophy,
@@ -38,7 +38,7 @@ export function InfoGrid() {
               strokeWidth={1.75}
               aria-hidden
             />
-            <h2 className="font-display text-xl tracking-tight text-black md:text-2xl">
+            <h2 className="font-display text-lg tracking-tight text-black md:text-xl">
               {title}
             </h2>
             <p className="mt-3 text-base leading-relaxed text-slate-900">

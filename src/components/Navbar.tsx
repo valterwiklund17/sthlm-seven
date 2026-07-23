@@ -10,7 +10,7 @@ export function Navbar({ hideCta = false }: NavbarProps) {
           <img
             src="/sthlmsevenlogo.jpg"
             alt="STHLM SEVEN"
-            className="h-12 w-auto object-contain md:h-14"
+            className="h-14 w-auto object-contain md:h-16"
           />
         </a>
         {!hideCta && (

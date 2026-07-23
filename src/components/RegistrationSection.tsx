@@ -18,7 +18,6 @@ type FieldErrors = {
   captain?: string
   phone?: string
   email?: string
-  ageVerified?: string
   termsAccepted?: string
 }
 
@@ -27,7 +26,6 @@ export function RegistrationSection() {
   const [captain, setCaptain] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
-  const [ageVerified, setAgeVerified] = useState(false)
   const [termsAccepted, setTermsAccepted] = useState(false)
   const [isTermsOpen, setIsTermsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -59,7 +57,6 @@ export function RegistrationSection() {
     if (!captain.trim()) nextErrors.captain = REQUIRED_FIELD_MSG
     if (!phone.trim()) nextErrors.phone = REQUIRED_FIELD_MSG
     if (!email.trim()) nextErrors.email = REQUIRED_FIELD_MSG
-    if (!ageVerified) nextErrors.ageVerified = CHECKBOX_MSG
     if (!termsAccepted) nextErrors.termsAccepted = CHECKBOX_MSG
 
     setFieldErrors(nextErrors)
@@ -106,7 +103,7 @@ export function RegistrationSection() {
   return (
     <section id="anmalan" className="px-6 pb-24 pt-8 md:px-8 md:pb-32 md:pt-12">
       <div className="mx-auto max-w-xl">
-        <h2 className="font-display text-3xl tracking-tight text-black md:text-4xl">
+        <h2 className="font-display text-2xl tracking-tight text-black md:text-3xl">
           Anmäl ditt lag
         </h2>
         <p className="mt-4 text-base text-slate-900 md:text-lg">
@@ -238,38 +235,6 @@ export function RegistrationSection() {
           <div>
             <label className="flex cursor-pointer items-start gap-3">
               <input
-                id="age-verification"
-                name="age-verification"
-                type="checkbox"
-                disabled={isSubmitting}
-                checked={ageVerified}
-                onChange={(e) => {
-                  setAgeVerified(e.target.checked)
-                  if (fieldErrors.ageVerified) {
-                    setFieldErrors((prev) => ({
-                      ...prev,
-                      ageVerified: undefined,
-                    }))
-                  }
-                }}
-                aria-invalid={Boolean(fieldErrors.ageVerified)}
-                className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-amber-500 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60"
-              />
-              <span className="text-sm leading-relaxed text-slate-900">
-                Jag intygar att snittåldern i laget är 16+ och att allt
-                deltagande sker på egen risk (Krävs)
-              </span>
-            </label>
-            {fieldErrors.ageVerified && (
-              <p className="mt-2 text-sm text-red-600">
-                {fieldErrors.ageVerified}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label className="flex cursor-pointer items-start gap-3">
-              <input
                 id="terms-accepted"
                 name="terms-accepted"
                 type="checkbox"
@@ -288,7 +253,7 @@ export function RegistrationSection() {
                 className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-amber-500 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60"
               />
               <span className="text-sm leading-relaxed text-slate-900">
-                Jag godkänner{' '}
+                Jag intygar att snittåldern i laget är 16+ och jag godkänner{' '}
                 <button
                   type="button"
                   onClick={(e) => {
@@ -299,6 +264,7 @@ export function RegistrationSection() {
                 >
                   anmälningsvillkoren
                 </button>
+                .
               </span>
             </label>
             {fieldErrors.termsAccepted && (
@@ -315,15 +281,6 @@ export function RegistrationSection() {
           >
             {isSubmitting ? 'Behandlar...' : 'Gå till betalning (1000 kr)'}
           </button>
-
-          <div className="flex items-center gap-2 pt-2 text-sm text-slate-500">
-            <span>Powered by AllPlay</span>
-            <img
-              src="/allplay-logo.png"
-              alt="AllPlay"
-              className="h-6 w-auto object-contain"
-            />
-          </div>
         </form>
       </div>
 
