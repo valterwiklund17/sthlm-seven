@@ -15,7 +15,7 @@ const cards: InfoCard[] = [
   {
     icon: Shield,
     title: '7v7 Format',
-    description: '4 grupper. 15 min gruppspel, 20 min slutspel. Officiella domare.',
+    description: '4 grupper. Matchtid: 1x15 min (gruppspel), 1x20 min (slutspel). Officiella domare.',
   },
   {
     icon: Trophy,
@@ -32,10 +32,10 @@ export function InfoGrid() {
           {cards.map(({ icon: Icon, title, description }) => (
             <article
               key={title}
-              className="flex flex-row items-start gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:flex-col md:gap-0 md:p-6"
+              className="flex flex-row items-start gap-3 rounded-lg border border-gray-200 bg-gray-50 p-4 shadow-sm md:flex-col md:gap-0 md:p-6"
             >
               <Icon
-                className="mt-0.5 h-5 w-5 shrink-0 text-black md:mb-5 md:mt-0 md:h-6 md:w-6"
+                className="mt-0.5 h-5 w-5 shrink-0 text-amber-500 md:mb-5 md:mt-0 md:h-6 md:w-6"
                 strokeWidth={1.75}
                 aria-hidden
               />
@@ -43,7 +43,7 @@ export function InfoGrid() {
                 <h2 className="font-display text-base tracking-tight text-black md:text-xl">
                   {title}
                 </h2>
-                <p className="mt-1 text-sm leading-snug text-gray-600 md:mt-2 md:text-base md:leading-relaxed">
+                <p className="mt-1 text-sm leading-snug text-gray-500 md:mt-2 md:leading-relaxed">
                   {description}
                 </p>
               </div>
