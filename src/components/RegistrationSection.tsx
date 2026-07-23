@@ -2,10 +2,10 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { X } from 'lucide-react'
 
 const inputClassName =
-  'h-11 w-full rounded-lg border border-slate-200 bg-white px-3.5 text-sm text-slate-900 outline-none transition-colors placeholder:text-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4 md:text-base'
+  'h-11 w-full rounded-lg border border-gray-200 bg-white px-3.5 text-sm text-slate-900 shadow-sm outline-none transition-colors placeholder:text-gray-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4 md:text-base'
 
 const inputErrorClassName =
-  'h-11 w-full rounded-lg border border-red-300 bg-white px-3.5 text-sm text-slate-900 outline-none transition-colors placeholder:text-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4 md:text-base'
+  'h-11 w-full rounded-lg border border-red-300 bg-white px-3.5 text-sm text-slate-900 shadow-sm outline-none transition-colors placeholder:text-gray-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4 md:text-base'
 
 const REQUIRED_FIELD_MSG = 'Detta fält är obligatoriskt'
 const CHECKBOX_MSG = 'Du måste godkänna villkoren för att fortsätta'
@@ -101,16 +101,19 @@ export function RegistrationSection() {
   }
 
   return (
-    <section id="anmalan" className="px-4 pb-16 pt-4 md:px-8 md:pb-32 md:pt-12">
+    <section
+      id="anmalan"
+      className="border-t border-gray-200 bg-slate-50 px-4 py-12 md:px-8"
+    >
       <div className="mx-auto max-w-xl">
-        <h2 className="font-display text-2xl tracking-tight text-black md:text-3xl">
+        <h2 className="font-display text-3xl font-bold tracking-tight text-black">
           Anmäl ditt lag
         </h2>
-        <p className="mt-2 text-sm text-slate-900 md:mt-4 md:text-lg">
+        <p className="mt-2 text-base text-gray-600">
           Begränsat till 16 lag. Anmälningsavgift 1000&nbsp;kr.
         </p>
 
-        <form noValidate onSubmit={handleSubmit} className="mt-6 space-y-3 md:mt-10 md:space-y-6">
+        <form noValidate onSubmit={handleSubmit} className="mt-6 space-y-3 md:mt-8 md:space-y-5">
           {errorMsg && (
             <div
               role="alert"
