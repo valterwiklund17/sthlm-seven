@@ -9,7 +9,7 @@ type InfoCard = {
 const cards: InfoCard[] = [
   {
     icon: MapPin,
-    title: '14 Augusti, 09:00 - 16:00',
+    title: '14 Augusti, 09:20 - 16:00',
     description: 'Mälarhöjdens IP.',
   },
   {
