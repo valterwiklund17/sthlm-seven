@@ -1,6 +1,5 @@
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
-import { Resend } from 'resend'
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -17,7 +16,7 @@ function getLogoAttachment() {
       console.log('[stripe-webhook] Found logo at', filepath)
       return {
         filename: 'sthlmsevenlogo.jpg',
-        content: readFileSync(filepath),
+        content: readFileSync(filepath).toString('base64'),
       }
     }
   }
@@ -242,7 +241,6 @@ export async function handler(event) {
     if (!resendApiKey) {
       console.error('[stripe-webhook] RESEND_API_KEY missing — skipping email')
     } else {
-      const resend = new Resend(resendApiKey)
       console.log('[stripe-webhook] Sending confirmation email to', email)
 
       const logoAttachment = getLogoAttachment()
@@ -275,11 +273,18 @@ export async function handler(event) {
       }
 
       try {
-        const emailResult = await resend.emails.send(emailPayload)
-        console.log('[stripe-webhook] Resend response', emailResult)
-        if (emailResult?.error) {
-          console.error('Resend internal error object:', emailResult.error)
-        }
+        const response = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(emailPayload),
+        })
+
+        const responseText = await response.text()
+        console.log('[stripe-webhook] Resend raw response status:', response.status)
+        console.log('[stripe-webhook] Resend raw response text:', responseText)
       } catch (error) {
         console.error('Resend API Error:', error)
       }
