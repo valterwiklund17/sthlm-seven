@@ -39,7 +39,7 @@ function extractRawBody(event) {
 
 function getSupabaseClient() {
   const supabaseUrl =
-    process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL
+    process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL
   const supabaseKey =
     process.env.SUPABASE_SERVICE_ROLE_KEY ??
     process.env.SUPABASE_ANON_KEY ??
@@ -219,11 +219,15 @@ export async function handler(event) {
     } else {
       console.log('[stripe-webhook] Sending confirmation email to', email)
 
+      const supabaseUrl =
+        process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL
+      const logoUrl = `${supabaseUrl}/storage/v1/object/public/assets/sthlmsevenlogo.jpg`
+
       const emailPayload = {
         from: 'Sthlm Seven <info@sthlmseven.se>',
         to: email,
         subject: 'Anmälan bekräftad - Sthlm Seven',
-        html: `<div style="font-family: Arial, sans-serif; color: #333;"><img src="https://mukmpfrvtiiebzpmjpwg.supabase.co/storage/v1/object/public/assets/sthlmsevenlogo.jpg" alt="Sthlm Seven Logo" width="120" style="margin-bottom: 20px;"/><p>Hej ${captain_name},</p><p>Tack för er anmälan! Laget <strong>${team_name}</strong> har nu säkrat en av de 16 platserna till Sthlm Seven.</p><p>Turneringen spelas den 14 augusti på Mälarhöjdens IP.</p><p>Vi ses där!</p><p>Vänliga hälsningar,<br>Sthlm Seven</p></div>`,
+        html: `<div style="font-family: Arial, sans-serif; color: #333;"><img src="${logoUrl}" alt="Sthlm Seven Logo" width="120" style="margin-bottom: 20px;"/><p>Hej ${captain_name},</p><p>Tack för er anmälan! Laget <strong>${team_name}</strong> har nu säkrat en av de 16 platserna till Sthlm Seven.</p><p>Turneringen spelas den 14 augusti på Mälarhöjdens IP.</p><p>Vi ses där!</p><p>Vänliga hälsningar,<br>Sthlm Seven</p></div>`,
       }
 
       try {
