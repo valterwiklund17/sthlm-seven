@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
+import { X } from 'lucide-react'
 
 const inputClassName =
   'w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition-colors placeholder:text-slate-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60'
@@ -9,12 +10,16 @@ const inputErrorClassName =
 const REQUIRED_FIELD_MSG = 'Detta fält är obligatoriskt'
 const CHECKBOX_MSG = 'Du måste godkänna villkoren för att fortsätta'
 
+const TERMS_TEXT =
+  'Anmälan är bindande. Den fasta anmälningsavgiften på 1000 kr per lag återbetalas ej vid avhopp eller ånger. Deltagande sker helt på egen risk. Sthlm Seven ansvarar inte för eventuella personskador, och tar inget ansvar för stulna eller borttappade värdesaker under turneringen.'
+
 type FieldErrors = {
   teamName?: string
   captain?: string
   phone?: string
   email?: string
   ageVerified?: string
+  termsAccepted?: string
 }
 
 export function RegistrationSection() {
@@ -23,9 +28,29 @@ export function RegistrationSection() {
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [ageVerified, setAgeVerified] = useState(false)
+  const [termsAccepted, setTermsAccepted] = useState(false)
+  const [isTermsOpen, setIsTermsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
+
+  useEffect(() => {
+    if (!isTermsOpen) return
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setIsTermsOpen(false)
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+    document.body.style.overflow = 'hidden'
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = ''
+    }
+  }, [isTermsOpen])
 
   function validate(): boolean {
     const nextErrors: FieldErrors = {}
@@ -35,6 +60,7 @@ export function RegistrationSection() {
     if (!phone.trim()) nextErrors.phone = REQUIRED_FIELD_MSG
     if (!email.trim()) nextErrors.email = REQUIRED_FIELD_MSG
     if (!ageVerified) nextErrors.ageVerified = CHECKBOX_MSG
+    if (!termsAccepted) nextErrors.termsAccepted = CHECKBOX_MSG
 
     setFieldErrors(nextErrors)
     return Object.keys(nextErrors).length === 0
@@ -241,6 +267,47 @@ export function RegistrationSection() {
             )}
           </div>
 
+          <div>
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                id="terms-accepted"
+                name="terms-accepted"
+                type="checkbox"
+                disabled={isSubmitting}
+                checked={termsAccepted}
+                onChange={(e) => {
+                  setTermsAccepted(e.target.checked)
+                  if (fieldErrors.termsAccepted) {
+                    setFieldErrors((prev) => ({
+                      ...prev,
+                      termsAccepted: undefined,
+                    }))
+                  }
+                }}
+                aria-invalid={Boolean(fieldErrors.termsAccepted)}
+                className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-amber-500 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+              <span className="text-sm leading-relaxed text-slate-900">
+                Jag godkänner{' '}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setIsTermsOpen(true)
+                  }}
+                  className="font-semibold text-slate-900 underline underline-offset-2 transition-colors hover:text-amber-600"
+                >
+                  anmälningsvillkoren
+                </button>
+              </span>
+            </label>
+            {fieldErrors.termsAccepted && (
+              <p className="mt-2 text-sm text-red-600">
+                {fieldErrors.termsAccepted}
+              </p>
+            )}
+          </div>
+
           <button
             type="submit"
             disabled={isSubmitting}
@@ -248,8 +315,58 @@ export function RegistrationSection() {
           >
             {isSubmitting ? 'Behandlar...' : 'Gå till betalning (1000 kr)'}
           </button>
+
+          <div className="flex items-center gap-2 pt-2 text-sm text-slate-500">
+            <span>Powered by AllPlay</span>
+            <img
+              src="/allplay-logo.png"
+              alt="AllPlay"
+              className="h-6 w-auto object-contain"
+            />
+          </div>
         </form>
       </div>
+
+      {isTermsOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-6"
+          role="presentation"
+          onClick={() => setIsTermsOpen(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="terms-modal-title"
+            className="relative w-full max-w-lg rounded-xl bg-white p-8 shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setIsTermsOpen(false)}
+              className="absolute right-4 top-4 rounded-md p-1 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
+              aria-label="Stäng"
+            >
+              <X className="h-5 w-5" strokeWidth={1.75} />
+            </button>
+            <h3
+              id="terms-modal-title"
+              className="font-display text-2xl tracking-tight text-black"
+            >
+              Anmälningsvillkor
+            </h3>
+            <p className="mt-4 text-base leading-relaxed text-slate-900">
+              {TERMS_TEXT}
+            </p>
+            <button
+              type="button"
+              onClick={() => setIsTermsOpen(false)}
+              className="mt-8 rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-50"
+            >
+              Stäng
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

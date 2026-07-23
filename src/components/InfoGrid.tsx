@@ -20,7 +20,7 @@ const cards: InfoCard[] = [
   {
     icon: Trophy,
     title: 'Vinnaren tar allt',
-    description: 'Prestigefylld prispott.',
+    description: '2500 kr i garanterad prispott.',
   },
 ]
 
