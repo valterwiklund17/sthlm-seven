@@ -2,10 +2,10 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { X } from 'lucide-react'
 
 const inputClassName =
-  'h-11 w-full rounded-lg border border-gray-200 bg-white px-3.5 text-sm text-slate-900 shadow-sm outline-none transition-colors placeholder:text-gray-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4 md:text-base'
+  'h-11 w-full rounded-lg border border-gray-200 bg-white px-3.5 text-base text-slate-900 shadow-sm outline-none transition-colors placeholder:text-gray-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
 
 const inputErrorClassName =
-  'h-11 w-full rounded-lg border border-red-300 bg-white px-3.5 text-sm text-slate-900 shadow-sm outline-none transition-colors placeholder:text-gray-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4 md:text-base'
+  'h-11 w-full rounded-lg border border-red-300 bg-white px-3.5 text-base text-slate-900 shadow-sm outline-none transition-colors placeholder:text-gray-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
 
 const REQUIRED_FIELD_MSG = 'Detta fält är obligatoriskt'
 const CHECKBOX_MSG = 'Du måste godkänna villkoren för att fortsätta'
