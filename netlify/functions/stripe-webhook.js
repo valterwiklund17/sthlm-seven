@@ -238,50 +238,48 @@ export async function handler(event) {
       teamId: data?.[0]?.id,
     })
 
-    try {
-      const resendApiKey = process.env.RESEND_API_KEY
-      if (!resendApiKey) {
-        console.error('[stripe-webhook] RESEND_API_KEY missing — skipping email')
-      } else {
-        const resend = new Resend(resendApiKey)
-        console.log('[stripe-webhook] Sending confirmation email to', email)
+    const resendApiKey = process.env.RESEND_API_KEY
+    if (!resendApiKey) {
+      console.error('[stripe-webhook] RESEND_API_KEY missing — skipping email')
+    } else {
+      const resend = new Resend(resendApiKey)
+      console.log('[stripe-webhook] Sending confirmation email to', email)
 
-        const logoAttachment = getLogoAttachment()
-        const emailPayload = {
-          from: 'Sthlm Seven <info@sthlmseven.se>',
-          to: email,
-          subject: 'Anmälan bekräftad - Sthlm Seven',
-          text: [
-            `Hej ${captain_name},`,
-            '',
-            `Tack för er anmälan! Laget ${team_name} har nu säkrat en av de 16 platserna till Sthlm Seven.`,
-            '',
-            'Turneringen spelas den 14 augusti på Mälarhöjdens IP.',
-            '',
-            'Vi ses där!',
-            '',
-            'Vänliga hälsningar,',
-            'Sthlm Seven',
-          ].join('\n'),
-          ...(logoAttachment
-            ? {
-                attachments: [
-                  {
-                    filename: logoAttachment.filename,
-                    content: logoAttachment.content,
-                  },
-                ],
-              }
-            : {}),
-        }
-
-        const emailResult = await resend.emails.send(emailPayload)
-
-        console.log('[stripe-webhook] Resend response', emailResult)
+      const logoAttachment = getLogoAttachment()
+      const emailPayload = {
+        from: 'Sthlm Seven <info@sthlmseven.se>',
+        to: email,
+        subject: 'Anmälan bekräftad - Sthlm Seven',
+        text: [
+          `Hej ${captain_name},`,
+          '',
+          `Tack för er anmälan! Laget ${team_name} har nu säkrat en av de 16 platserna till Sthlm Seven.`,
+          '',
+          'Turneringen spelas den 14 augusti på Mälarhöjdens IP.',
+          '',
+          'Vi ses där!',
+          '',
+          'Vänliga hälsningar,',
+          'Sthlm Seven',
+        ].join('\n'),
+        ...(logoAttachment
+          ? {
+              attachments: [
+                {
+                  filename: logoAttachment.filename,
+                  content: logoAttachment.content,
+                },
+              ],
+            }
+          : {}),
       }
-    } catch (emailError) {
-      // Don't fail the webhook after a successful DB insert — Stripe would retry.
-      console.error('[stripe-webhook] Failed to send confirmation email', emailError)
+
+      try {
+        const emailResult = await resend.emails.send(emailPayload)
+        console.log('[stripe-webhook] Resend response', emailResult)
+      } catch (error) {
+        console.error('Resend API Error:', error)
+      }
     }
 
     return {
