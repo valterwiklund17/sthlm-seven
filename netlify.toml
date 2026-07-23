@@ -6,9 +6,6 @@
 [functions]
   node_bundler = "esbuild"
 
-[functions."stripe-webhook"]
-  included_files = ["netlify/functions/assets/**"]
-
 # Explicit rewrites — status 200 = silent proxy (not 301/308).
 # Functions must live at the TOP LEVEL of netlify/functions/ (no nested paths).
 [[redirects]]

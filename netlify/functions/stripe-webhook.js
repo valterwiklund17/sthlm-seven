@@ -1,29 +1,5 @@
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
-import { existsSync, readFileSync } from 'node:fs'
-import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
-
-function getLogoAttachment() {
-  const candidates = [
-    join(dirname(fileURLToPath(import.meta.url)), 'assets', 'sthlmsevenlogo.jpg'),
-    join(process.cwd(), 'netlify/functions/assets/sthlmsevenlogo.jpg'),
-    join(process.cwd(), 'assets', 'sthlmsevenlogo.jpg'),
-  ]
-
-  for (const filepath of candidates) {
-    if (existsSync(filepath)) {
-      console.log('[stripe-webhook] Found logo at', filepath)
-      return {
-        filename: 'sthlmsevenlogo.jpg',
-        content: readFileSync(filepath).toString('base64'),
-      }
-    }
-  }
-
-  console.error('[stripe-webhook] Logo file not found', { candidates })
-  return null
-}
 
 function getHeader(headers, name) {
   const target = name.toLowerCase()
@@ -243,33 +219,11 @@ export async function handler(event) {
     } else {
       console.log('[stripe-webhook] Sending confirmation email to', email)
 
-      const logoAttachment = getLogoAttachment()
       const emailPayload = {
         from: 'Sthlm Seven <info@sthlmseven.se>',
         to: email,
         subject: 'Anmälan bekräftad - Sthlm Seven',
-        text: [
-          `Hej ${captain_name},`,
-          '',
-          `Tack för er anmälan! Laget ${team_name} har nu säkrat en av de 16 platserna till Sthlm Seven.`,
-          '',
-          'Turneringen spelas den 14 augusti på Mälarhöjdens IP.',
-          '',
-          'Vi ses där!',
-          '',
-          'Vänliga hälsningar,',
-          'Sthlm Seven',
-        ].join('\n'),
-        ...(logoAttachment
-          ? {
-              attachments: [
-                {
-                  filename: logoAttachment.filename,
-                  content: logoAttachment.content,
-                },
-              ],
-            }
-          : {}),
+        html: `<div style="font-family: Arial, sans-serif; color: #333;"><img src="https://mukmpfrvtiiebzpmjpwg.supabase.co/storage/v1/object/public/assets/sthlmsevenlogo.jpg" alt="Sthlm Seven Logo" width="120" style="margin-bottom: 20px;"/><p>Hej ${captain_name},</p><p>Tack för er anmälan! Laget <strong>${team_name}</strong> har nu säkrat en av de 16 platserna till Sthlm Seven.</p><p>Turneringen spelas den 14 augusti på Mälarhöjdens IP.</p><p>Vi ses där!</p><p>Vänliga hälsningar,<br>Sthlm Seven</p></div>`,
       }
 
       try {
