@@ -42,7 +42,7 @@ export function Navbar({ hideCta = false }: NavbarProps) {
             rel="noopener noreferrer"
           >
             <img
-              src="https://mukmpfrvtiiebzpmjpwg.supabase.co/storage/v1/object/public/assets/app-store-sv.png"
+              src={`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/app-store-sv.png`}
               alt="Hämta i App Store"
               className="h-8 transition-opacity hover:opacity-80 md:h-10"
             />
