@@ -277,6 +277,9 @@ export async function handler(event) {
       try {
         const emailResult = await resend.emails.send(emailPayload)
         console.log('[stripe-webhook] Resend response', emailResult)
+        if (emailResult?.error) {
+          console.error('Resend internal error object:', emailResult.error)
+        }
       } catch (error) {
         console.error('Resend API Error:', error)
       }
