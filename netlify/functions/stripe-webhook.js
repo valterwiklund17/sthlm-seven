@@ -236,9 +236,11 @@ export async function handler(event) {
           body: JSON.stringify(emailPayload),
         })
 
-        const responseText = await response.text()
-        console.log('[stripe-webhook] Resend raw response status:', response.status)
-        console.log('[stripe-webhook] Resend raw response text:', responseText)
+        const result = await response.json()
+        console.log('[stripe-webhook] Resend response:', {
+          status: response.status,
+          data: result,
+        })
       } catch (error) {
         console.error('Resend API Error:', error)
       }
