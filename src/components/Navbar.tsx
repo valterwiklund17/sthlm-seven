@@ -27,7 +27,7 @@ export function Navbar({ hideCta = false }: NavbarProps) {
             </a>
           )}
         </div>
-        <div className="flex flex-col items-end gap-1">
+        <div className="flex flex-col items-end justify-center gap-2">
           <div className="flex items-center gap-1.5 text-[10px] text-gray-500 md:gap-2 md:text-xs">
             <span className="leading-none">Powered by AllPlay</span>
             <img
@@ -40,13 +40,11 @@ export function Navbar({ hideCta = false }: NavbarProps) {
             href="https://getallplay.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex"
-            aria-label="Ladda ner AllPlay i App Store"
           >
             <img
               src="https://mukmpfrvtiiebzpmjpwg.supabase.co/storage/v1/object/public/assets/app-store-sv.png"
-              alt="Ladda ner i App Store"
-              className="h-8 w-auto object-contain transition-opacity hover:opacity-80 md:h-10"
+              alt="Hämta i App Store"
+              className="h-8 transition-opacity hover:opacity-80 md:h-10"
             />
           </a>
         </div>
