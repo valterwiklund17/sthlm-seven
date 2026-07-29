@@ -103,7 +103,7 @@ export function RegistrationSection() {
   return (
     <section
       id="anmalan"
-      className="scroll-mt-24 border-t border-gray-200 bg-slate-50 px-4 py-12 md:scroll-mt-28 md:px-8"
+      className="scroll-mt-24 border-t border-gray-200 bg-slate-50 px-4 pt-10 pb-6 md:scroll-mt-28 md:px-8 md:pt-12 md:pb-8"
     >
       <div className="mx-auto max-w-xl">
         <h2 className="font-display text-3xl font-bold tracking-tight text-black">

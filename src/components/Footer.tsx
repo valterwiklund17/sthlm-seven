@@ -7,7 +7,7 @@ type Partner = {
 const partners: Partner[] = [
   {
     name: 'ViSes',
-    href: 'https://vises.se',
+    href: 'https://apps.apple.com/se/app/vises-v%C3%A4nner-upplevelser/id6759677282',
     logoSrc: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/vises_logo.png`,
   },
 ]
@@ -15,10 +15,10 @@ const partners: Partner[] = [
 export function Footer() {
   return (
     <footer className="border-t border-gray-200 bg-white">
-      <div className="mx-auto flex max-w-6xl flex-col items-center px-4 py-14 md:px-8 md:py-20">
+      <div className="mx-auto flex max-w-6xl flex-col items-center px-4 py-8 md:px-8 md:py-10">
         {/* Level 1: Infrastructure — AllPlay */}
-        <section className="flex w-full flex-col items-center text-center">
-          <div className="flex items-center gap-2 text-sm text-gray-600 md:text-base">
+        <section className="flex w-full flex-col items-center gap-3 text-center">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
             <span>Powered by AllPlay</span>
             <img
               src="/allplay-logo.png"
@@ -30,7 +30,7 @@ export function Footer() {
             href="https://getallplay.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex"
+            className="inline-flex"
             aria-label="Hämta AllPlay i App Store"
           >
             <img
@@ -42,11 +42,11 @@ export function Footer() {
         </section>
 
         {/* Level 2: Partners — scalable grid */}
-        <section className="mt-14 w-full border-t border-gray-100 pt-14 md:mt-16 md:pt-16">
-          <h2 className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-gray-400">
+        <section className="mt-8 w-full border-t border-gray-100 pt-8">
+          <h2 className="text-center text-xs font-bold uppercase tracking-wide text-gray-500">
             Officiella Partners
           </h2>
-          <div className="mx-auto mt-8 grid max-w-md grid-cols-2 items-center justify-items-center gap-8 sm:grid-cols-3 md:mt-10 md:max-w-2xl md:gap-10">
+          <div className="mx-auto mt-6 grid max-w-md grid-cols-2 items-center justify-items-center gap-6 sm:grid-cols-3 md:max-w-2xl md:gap-8">
             {partners.map((partner) => (
               <a
                 key={partner.name}
@@ -71,7 +71,7 @@ export function Footer() {
         </section>
 
         {/* Level 3: Copyright */}
-        <p className="mt-14 text-center text-sm text-gray-500 md:mt-16">
+        <p className="mt-8 text-center text-sm text-gray-500">
           © {new Date().getFullYear()} Sthlm Seven. Alla rättigheter förbehållna.
         </p>
       </div>
