@@ -3,6 +3,7 @@ import { Hero } from './components/Hero'
 import { InfoGrid } from './components/InfoGrid'
 import { RegistrationSection } from './components/RegistrationSection'
 import { RegistrationSuccess } from './components/RegistrationSuccess'
+import { Footer } from './components/Footer'
 
 function App() {
   const isSuccess =
@@ -24,16 +25,7 @@ function App() {
           </>
         )}
       </main>
-      <footer className="border-t border-gray-200 bg-slate-50 px-6 py-10 md:px-8">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          <p className="font-display text-sm tracking-tight text-black">
-            STHLM SEVEN
-          </p>
-          <p className="text-sm text-gray-600">
-            © {new Date().getFullYear()} Sthlm Seven. Alla rättigheter förbehållna.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
