@@ -4,6 +4,8 @@ type Partner = {
   logoSrc: string
 }
 
+const footerTextClass = 'text-sm font-medium text-gray-500'
+
 const partners: Partner[] = [
   {
     name: 'ViSes',
@@ -18,7 +20,7 @@ export function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col items-center px-4 py-8 md:px-8 md:py-10">
         {/* Level 1: Infrastructure — AllPlay */}
         <section className="flex w-full flex-col items-center gap-3 text-center">
-          <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className={`flex items-center gap-2 ${footerTextClass}`}>
             <span>Powered by AllPlay</span>
             <img
               src="/allplay-logo.png"
@@ -43,7 +45,7 @@ export function Footer() {
 
         {/* Level 2: Partners — scalable grid */}
         <section className="mt-8 w-full border-t border-gray-100 pt-8">
-          <h2 className="text-center text-xs font-bold uppercase tracking-wide text-gray-500">
+          <h2 className={`text-center ${footerTextClass}`}>
             Officiella Partners
           </h2>
           <div className="mx-auto mt-6 grid max-w-md grid-cols-2 items-center justify-items-center gap-6 sm:grid-cols-3 md:max-w-2xl md:gap-8">
@@ -55,14 +57,14 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="group flex flex-col items-center gap-2 transition-opacity hover:opacity-80"
               >
-                <div className="flex h-16 w-28 items-center justify-center rounded-lg border border-gray-100 bg-gray-50 px-3 py-2 md:h-20 md:w-32">
+                <div className="flex h-20 w-32 flex-col items-center justify-center rounded-lg border border-gray-100 bg-gray-50 p-2 md:h-24 md:w-36">
                   <img
                     src={partner.logoSrc}
                     alt={partner.name}
-                    className="max-h-12 max-w-full object-contain md:max-h-14"
+                    className="h-14 w-14 object-contain md:h-16 md:w-16"
                   />
                 </div>
-                <span className="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                <span className={`${footerTextClass} group-hover:text-gray-700`}>
                   {partner.name}
                 </span>
               </a>
@@ -71,7 +73,7 @@ export function Footer() {
         </section>
 
         {/* Level 3: Copyright */}
-        <p className="mt-8 text-center text-sm text-gray-500">
+        <p className={`mt-8 text-center ${footerTextClass}`}>
           © {new Date().getFullYear()} Sthlm Seven. Alla rättigheter förbehållna.
         </p>
       </div>
