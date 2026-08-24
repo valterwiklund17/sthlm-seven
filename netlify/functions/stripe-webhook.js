@@ -227,7 +227,7 @@ export async function handler(event) {
         from: 'Sthlm Seven <info@sthlmseven.se>',
         to: email,
         subject: 'Anmälan bekräftad - Sthlm Seven',
-        html: `<div style="font-family: Arial, sans-serif; color: #333;"><img src="${logoUrl}" alt="Sthlm Seven Logo" width="120" style="margin-bottom: 20px;"/><p>Hej ${captain_name},</p><p>Tack för er anmälan! Laget <strong>${team_name}</strong> har nu säkrat en av de 16 platserna till Sthlm Seven.</p><p>Turneringen spelas den 14 augusti på Mälarhöjdens IP.</p><p>Vi ses där!</p><p>Vänliga hälsningar,<br>Sthlm Seven</p></div>`,
+        html: `<div style="font-family: Arial, sans-serif; color: #333;"><img src="${logoUrl}" alt="Sthlm Seven Logo" width="120" style="margin-bottom: 20px;"/><p>Hej ${captain_name},</p><p>Tack för er anmälan! Laget <strong>${team_name}</strong> har nu säkrat en av de 16 platserna till Sthlm Seven.</p><p>Turneringen spelas den 30 augusti på Ärvinge BP.</p><p>Vi ses där!</p><p>Vänliga hälsningar,<br>Sthlm Seven</p></div>`,
       }
 
       try {
