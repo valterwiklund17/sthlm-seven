@@ -15,7 +15,7 @@ const cards: InfoCard[] = [
   {
     icon: Shield,
     title: '7v7 Format',
-    description: '4 grupper. Matchtid: 1x15 min (gruppspel), 1x20 min (slutspel). Officiella domare.',
+    description: '3 grupper. Matchtid: 1x20 min (gruppspel), 1x20 min (slutspel). Officiella domare.',
   },
   {
     icon: Trophy,
