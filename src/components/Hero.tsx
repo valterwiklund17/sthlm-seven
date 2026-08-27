@@ -7,7 +7,7 @@ export function Hero() {
         </h1>
         <p className="mt-4 max-w-xl text-lg leading-snug text-gray-600 md:mt-6">
           Stockholms mest exklusiva 7v7-turnering. Öppen amatörnivå för
-          kompisgäng och korpenlag. 16 lag. En mästare.
+          kompisgäng och korpenlag. 12 lag. En mästare.
         </p>
       </div>
     </section>
