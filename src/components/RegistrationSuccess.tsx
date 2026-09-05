@@ -13,7 +13,7 @@ export function RegistrationSuccess() {
       </h1>
       <p className="mt-6 max-w-lg text-base leading-relaxed text-slate-900 md:text-lg">
         Din betalning är genomförd och ditt lag är nu registrerat för Sthlm
-        Seven. Vi ses på Ärvinge BP.
+        Seven High School Edition. Vi ses på Zinkensdamms IP.
       </p>
       <a
         href="/"

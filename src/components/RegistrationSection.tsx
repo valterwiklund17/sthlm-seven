@@ -11,7 +11,7 @@ const REQUIRED_FIELD_MSG = 'Detta fält är obligatoriskt'
 const CHECKBOX_MSG = 'Du måste godkänna villkoren för att fortsätta'
 
 const TERMS_TEXT =
-  'Anmälan är bindande. Den fasta anmälningsavgiften på 1000 kr per lag återbetalas ej vid avhopp eller ånger. Deltagande sker helt på egen risk. Sthlm Seven ansvarar inte för eventuella personskador, och tar inget ansvar för stulna eller borttappade värdesaker under turneringen.'
+  'Anmälan är bindande. Den fasta anmälningsavgiften på 1500 kr per lag återbetalas ej vid avhopp eller ånger. Deltagande sker helt på egen risk. Sthlm Seven ansvarar inte för eventuella personskador, och tar inget ansvar för stulna eller borttappade värdesaker under turneringen.'
 
 type FieldErrors = {
   teamName?: string
@@ -110,7 +110,7 @@ export function RegistrationSection() {
           Anmäl ditt lag
         </h2>
         <p className="mt-2 text-base text-gray-600">
-          Begränsat till 12 lag. Anmälningsavgift 1000&nbsp;kr.
+          Begränsat till 8 lag. Anmälningsavgift 1500&nbsp;kr.
         </p>
 
         <form noValidate onSubmit={handleSubmit} className="mt-6 space-y-3 md:mt-8 md:space-y-5">
@@ -256,7 +256,7 @@ export function RegistrationSection() {
                 className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-amber-500 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60"
               />
               <span className="text-sm leading-relaxed text-slate-900">
-                Jag intygar att snittåldern i laget är 16+ och jag godkänner{' '}
+                Jag intygar att samtliga spelare går på gymnasiet och jag godkänner{' '}
                 <button
                   type="button"
                   onClick={(e) => {
@@ -282,7 +282,7 @@ export function RegistrationSection() {
             disabled={isSubmitting}
             className="w-full rounded-lg bg-amber-500 px-8 py-4 text-base font-semibold text-slate-900 transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
           >
-            {isSubmitting ? 'Behandlar...' : 'Gå till betalning (1000 kr)'}
+            {isSubmitting ? 'Behandlar...' : 'Gå till betalning (1500 kr)'}
           </button>
         </form>
       </div>

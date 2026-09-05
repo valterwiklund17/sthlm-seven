@@ -6,8 +6,8 @@ export function Hero() {
           Sthlm Seven.
         </h1>
         <p className="mt-4 max-w-xl text-lg leading-snug text-gray-600 md:mt-6">
-          Stockholms mest exklusiva 7v7-turnering. Öppen amatörnivå för
-          kompisgäng och korpenlag. 12 lag. En mästare.
+          Stockholm Seven presenterar: High School Edition. Stockholms mest
+          exklusiva 7v7-turnering för gymnasieskolor. 8 skollag. En mästare.
         </p>
       </div>
     </section>

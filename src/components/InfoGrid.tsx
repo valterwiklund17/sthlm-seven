@@ -9,13 +9,13 @@ type InfoCard = {
 const cards: InfoCard[] = [
   {
     icon: MapPin,
-    title: '30 Augusti, 12:20 - 19:00',
-    description: 'Ärvinge BP.',
+    title: '19 September, 14:00 - 18:00',
+    description: 'Zinkensdamms IP.',
   },
   {
     icon: Shield,
     title: '7v7 Format',
-    description: '3 grupper. Matchtid: 1x20 min (gruppspel), 1x20 min (slutspel). Officiella domare.',
+    description: '8 lag, 2 grupper. Matchtid: 1x20 min.',
   },
   {
     icon: Trophy,
