@@ -66,7 +66,7 @@ async function createCheckoutSession(body, origin) {
         {
           price_data: {
             currency: 'sek',
-            unit_amount: 100000,
+            unit_amount: 150000,
             product_data: {
               name: 'Sthlm Seven – Anmälningsavgift',
             },
