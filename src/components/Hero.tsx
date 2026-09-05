@@ -7,7 +7,7 @@ export function Hero() {
         </h1>
         <p className="mt-4 max-w-xl text-lg leading-snug text-gray-600 md:mt-6">
           Stockholm Seven presenterar: Gymnasiemästerskapet. Stockholms mest
-          exklusiva 7v7-turnering för skollag. 8 gymnasier. En mästare.
+          exklusiva 7v7-turnering för skollag. 8 gymnasieskolor. En mästare.
         </p>
       </div>
     </section>
