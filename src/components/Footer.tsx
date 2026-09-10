@@ -2,6 +2,7 @@ type Partner = {
   name: string
   href: string
   logoSrc: string
+  logoClassName?: string
 }
 
 const footerTextClass = 'text-sm font-medium text-gray-500'
@@ -15,7 +16,8 @@ const partners: Partner[] = [
   {
     name: 'EF Education First',
     href: 'https://www.ef.se',
-    logoSrc: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/${encodeURIComponent('JPG-EF-Logos_EF Education First Black.jpg')}`,
+    logoSrc: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/${encodeURIComponent('JPG-EF-Logos_EF Education First Black-Photoroom.png')}`,
+    logoClassName: 'scale-[1.7]',
   },
 ]
 
@@ -62,11 +64,11 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="group flex flex-col items-center gap-2 transition-opacity hover:opacity-80"
               >
-                <div className="flex h-20 w-32 flex-col items-center justify-center rounded-lg border border-gray-100 bg-gray-50 p-2 md:h-24 md:w-36">
+                <div className="flex h-20 w-32 items-center justify-center overflow-hidden rounded-lg border border-gray-100 bg-gray-50 p-2 md:h-24 md:w-36">
                   <img
                     src={partner.logoSrc}
                     alt={partner.name}
-                    className="h-14 w-14 object-contain md:h-16 md:w-16"
+                    className={`h-full w-full object-contain ${partner.logoClassName ?? ''}`}
                   />
                 </div>
                 <span className={`${footerTextClass} group-hover:text-gray-700`}>
