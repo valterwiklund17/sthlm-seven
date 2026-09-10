@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { X } from 'lucide-react'
+import { supabase } from '../lib/supabase'
 
 const inputClassName =
   'h-11 w-full rounded-lg border border-gray-200 bg-white px-3.5 text-base text-slate-900 shadow-sm outline-none transition-colors placeholder:text-gray-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
@@ -9,6 +10,8 @@ const inputErrorClassName =
 
 const REQUIRED_FIELD_MSG = 'Detta fält är obligatoriskt'
 const CHECKBOX_MSG = 'Du måste godkänna villkoren för att fortsätta'
+const TOURNAMENT_FULL_MSG =
+  'Maxgränsen på 8 lag är nådd. Turneringen är full.'
 
 const TERMS_TEXT =
   'Anmälan är bindande. Den fasta anmälningsavgiften på 1500 kr per lag återbetalas ej vid avhopp eller ånger. Deltagande sker helt på egen risk. Sthlm Seven ansvarar inte för eventuella personskador, och tar inget ansvar för stulna eller borttappade värdesaker under turneringen.'
@@ -29,8 +32,37 @@ export function RegistrationSection() {
   const [termsAccepted, setTermsAccepted] = useState(false)
   const [isTermsOpen, setIsTermsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isTournamentFull, setIsTournamentFull] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function checkCapacity() {
+      const { count, error } = await supabase
+        .from('teams')
+        .select('*', { count: 'exact', head: true })
+
+      if (cancelled) return
+
+      if (error) {
+        console.error('[registration] Failed to count teams:', error)
+        return
+      }
+
+      if ((count ?? 0) >= 8) {
+        setIsTournamentFull(true)
+        setErrorMsg(TOURNAMENT_FULL_MSG)
+      }
+    }
+
+    void checkCapacity()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     if (!isTermsOpen) return
@@ -67,6 +99,11 @@ export function RegistrationSection() {
     event.preventDefault()
     setErrorMsg('')
 
+    if (isTournamentFull) {
+      setErrorMsg(TOURNAMENT_FULL_MSG)
+      return
+    }
+
     if (!validate()) {
       return
     }
@@ -88,7 +125,16 @@ export function RegistrationSection() {
       const payload = (await response.json()) as { url?: string; error?: string }
 
       if (!response.ok || !payload.url) {
-        setErrorMsg(payload.error || 'Något gick fel vid anmälan. Försök igen.')
+        const message =
+          payload.error || 'Något gick fel vid anmälan. Försök igen.'
+        setErrorMsg(message)
+        if (
+          message.includes('full') ||
+          message.includes('Maxgränsen') ||
+          message.includes('fullbokad')
+        ) {
+          setIsTournamentFull(true)
+        }
         setIsSubmitting(false)
         return
       }
@@ -279,7 +325,7 @@ export function RegistrationSection() {
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isTournamentFull}
             className="w-full rounded-lg bg-amber-500 px-8 py-4 text-base font-semibold text-slate-900 transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
           >
             {isSubmitting ? 'Behandlar...' : 'Gå till betalning (1500 kr)'}

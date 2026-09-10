@@ -12,6 +12,11 @@ const partners: Partner[] = [
     href: 'https://apps.apple.com/se/app/vises-v%C3%A4nner-upplevelser/id6759677282',
     logoSrc: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/vises_logo.png`,
   },
+  {
+    name: 'EF Education First',
+    href: 'https://www.ef.se',
+    logoSrc: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/${encodeURIComponent('JPG-EF-Logos_EF Education First Black.jpg')}`,
+  },
 ]
 
 export function Footer() {

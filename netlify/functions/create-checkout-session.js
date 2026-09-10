@@ -49,12 +49,15 @@ async function createCheckoutSession(body, origin) {
 
   console.log('[create-checkout-session] Registered teams count:', count)
 
-  if ((count ?? 0) >= 16) {
+  if ((count ?? 0) >= 8) {
     console.error(
       '[create-checkout-session] Tournament full — aborting before Stripe',
       { count },
     )
-    return { error: 'Turneringen är fullbokad', status: 400 }
+    return {
+      error: 'Maxgränsen på 8 lag är nådd. Turneringen är full.',
+      status: 400,
+    }
   }
 
   const stripe = new Stripe(getEnv('STRIPE_SECRET_KEY'))

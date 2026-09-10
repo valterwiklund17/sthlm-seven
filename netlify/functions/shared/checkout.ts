@@ -61,8 +61,11 @@ export async function createCheckoutSession(
     return { error: 'Något gick fel vid anmälan. Försök igen.', status: 500 }
   }
 
-  if ((count ?? 0) >= 16) {
-    return { error: 'Turneringen är fullbokad', status: 400 }
+  if ((count ?? 0) >= 8) {
+    return {
+      error: 'Maxgränsen på 8 lag är nådd. Turneringen är full.',
+      status: 400,
+    }
   }
 
   const stripe = new Stripe(getEnv('STRIPE_SECRET_KEY'))
