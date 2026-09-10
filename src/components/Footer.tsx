@@ -2,7 +2,6 @@ type Partner = {
   name: string
   href: string
   logoSrc: string
-  logoClassName?: string
 }
 
 const footerTextClass = 'text-sm font-medium text-gray-500'
@@ -17,7 +16,6 @@ const partners: Partner[] = [
     name: 'EF Education First',
     href: 'https://www.ef.se',
     logoSrc: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/${encodeURIComponent('JPG-EF-Logos_EF Education First Black-Photoroom.png')}`,
-    logoClassName: 'scale-[1.7]',
   },
 ]
 
@@ -55,23 +53,23 @@ export function Footer() {
           <h2 className={`text-center ${footerTextClass}`}>
             Officiella Partners
           </h2>
-          <div className="mx-auto mt-6 grid max-w-md grid-cols-2 items-center justify-items-center gap-6 sm:grid-cols-3 md:max-w-2xl md:gap-8">
+          <div className="mx-auto mt-6 flex max-w-md flex-wrap items-start justify-center gap-x-12 gap-y-6 md:max-w-2xl md:gap-x-16">
             {partners.map((partner) => (
               <a
                 key={partner.name}
                 href={partner.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col items-center gap-2 transition-opacity hover:opacity-80"
+                className="group flex w-36 flex-col items-center transition-opacity hover:opacity-80"
               >
-                <div className="flex h-20 w-32 items-center justify-center overflow-hidden rounded-lg border border-gray-100 bg-gray-50 p-2 md:h-24 md:w-36">
-                  <img
-                    src={partner.logoSrc}
-                    alt={partner.name}
-                    className={`h-full w-full object-contain ${partner.logoClassName ?? ''}`}
-                  />
-                </div>
-                <span className={`${footerTextClass} group-hover:text-gray-700`}>
+                <img
+                  src={partner.logoSrc}
+                  alt={partner.name}
+                  className="h-16 w-auto object-contain"
+                />
+                <span
+                  className={`mt-3 text-center ${footerTextClass} group-hover:text-gray-700`}
+                >
                   {partner.name}
                 </span>
               </a>
