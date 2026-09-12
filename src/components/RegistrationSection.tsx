@@ -13,9 +13,6 @@ const CHECKBOX_MSG = 'Du måste godkänna villkoren för att fortsätta'
 const TOURNAMENT_FULL_MSG =
   'Maxgränsen på 8 lag är nådd. Turneringen är full.'
 
-const TERMS_TEXT =
-  'Anmälan är bindande. Den fasta anmälningsavgiften på 1500 kr per lag återbetalas ej vid avhopp eller ånger. Deltagande sker helt på egen risk. Sthlm Seven ansvarar inte för eventuella personskador, och tar inget ansvar för stulna eller borttappade värdesaker under turneringen.'
-
 type FieldErrors = {
   teamName?: string
   captain?: string
@@ -335,7 +332,7 @@ export function RegistrationSection() {
 
       {isTermsOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6"
           role="presentation"
           onClick={() => setIsTermsOpen(false)}
         >
@@ -343,33 +340,122 @@ export function RegistrationSection() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="terms-modal-title"
-            className="relative w-full max-w-lg rounded-xl bg-white p-8 shadow-lg"
+            className="relative flex max-h-[85vh] w-full max-w-lg flex-col overflow-hidden rounded-xl bg-white shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              type="button"
-              onClick={() => setIsTermsOpen(false)}
-              className="absolute right-4 top-4 rounded-md p-1 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
-              aria-label="Stäng"
-            >
-              <X className="h-5 w-5" strokeWidth={1.75} />
-            </button>
-            <h3
-              id="terms-modal-title"
-              className="font-display text-2xl tracking-tight text-black"
-            >
-              Anmälningsvillkor
-            </h3>
-            <p className="mt-4 text-base leading-relaxed text-slate-900">
-              {TERMS_TEXT}
-            </p>
-            <button
-              type="button"
-              onClick={() => setIsTermsOpen(false)}
-              className="mt-8 rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-50"
-            >
-              Stäng
-            </button>
+            <div className="flex items-start justify-between border-b border-gray-100 px-6 pb-4 pt-6 md:px-8">
+              <h3
+                id="terms-modal-title"
+                className="pr-8 font-display text-2xl tracking-tight text-black"
+              >
+                Anmälningsvillkor
+              </h3>
+              <button
+                type="button"
+                onClick={() => setIsTermsOpen(false)}
+                className="rounded-md p-1 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                aria-label="Stäng"
+              >
+                <X className="h-5 w-5" strokeWidth={1.75} />
+              </button>
+            </div>
+
+            <div className="max-h-[70vh] flex-1 overflow-y-auto px-6 py-5 text-sm leading-relaxed text-slate-900 md:px-8 md:text-base">
+              <section className="space-y-2">
+                <h4 className="font-bold text-black">
+                  1. Anmälan och Betalning
+                </h4>
+                <ul className="list-disc space-y-1.5 pl-5">
+                  <li>Anmälan är bindande.</li>
+                  <li>
+                    Den fasta anmälningsavgiften återbetalas ej vid avhopp,
+                    ånger eller om laget diskvalificeras från turneringen.
+                  </li>
+                </ul>
+              </section>
+
+              <section className="mt-6 space-y-2">
+                <h4 className="font-bold text-black">2. Ansvarsfriskrivning</h4>
+                <ul className="list-disc space-y-1.5 pl-5">
+                  <li>Allt deltagande sker helt på egen risk.</li>
+                  <li>
+                    Sthlm Seven bär inget ekonomiskt eller juridiskt ansvar för
+                    eventuella personskador, sjukdomsfall, eller för
+                    stulna/borttappade värdesaker i samband med turneringen.
+                  </li>
+                </ul>
+              </section>
+
+              <section className="mt-6 space-y-2">
+                <h4 className="font-bold text-black">
+                  3. Lagkaptenens ansvar
+                </h4>
+                <ul className="list-disc space-y-1.5 pl-5">
+                  <li>
+                    Varje lag ska utse en ansvarig person som fungerar som
+                    exklusiv kontaktperson gentemot arrangören.
+                  </li>
+                  <li>
+                    Denna person ansvarar för att all information och alla
+                    regelverk kommuniceras till samtliga spelare i laget.
+                  </li>
+                </ul>
+              </section>
+
+              <section className="mt-6 space-y-2">
+                <h4 className="font-bold text-black">
+                  4. Spelregler &amp; Format
+                </h4>
+                <ul className="list-disc space-y-1.5 pl-5">
+                  <li>
+                    Turneringarna spelas i 7v7-format och följer i grunden
+                    Svenska Fotbollförbundets (SvFF) regelverk.
+                  </li>
+                  <li>
+                    För spelarnas säkerhet är defensiva glidtacklingar
+                    förbjudna.
+                  </li>
+                  <li>
+                    Vid regelbrott tillämpas gula och röda kort. Vid grova
+                    eller upprepade överträdelser kan hela laget
+                    diskvalificeras från turneringen.
+                  </li>
+                </ul>
+              </section>
+
+              <section className="mt-6 space-y-2 pb-2">
+                <h4 className="font-bold text-black">
+                  5. Disciplin, Supportrar och Fair Play
+                </h4>
+                <ul className="list-disc space-y-1.5 pl-5">
+                  <li>
+                    Alla förväntas bidra till en trygg och respektfull miljö.
+                    Varje lag ansvarar strikt för både sina egna spelare och
+                    sina supportrar.
+                  </li>
+                  <li>
+                    Kränkande, hotfullt eller våldsamt beteende leder till
+                    omedelbar avvisning från spelplatsen.
+                  </li>
+                  <li>
+                    Pyroteknik (bengaler, fyrverkerier etc.) är strängt
+                    förbjudet på och i anslutning till spelplatsen.
+                    Överträdelser från spelare eller supportrar leder till att
+                    laget diskvalificeras omedelbart.
+                  </li>
+                </ul>
+              </section>
+            </div>
+
+            <div className="sticky bottom-0 border-t border-gray-100 bg-white px-6 py-4 md:px-8">
+              <button
+                type="button"
+                onClick={() => setIsTermsOpen(false)}
+                className="w-full rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-50"
+              >
+                Stäng
+              </button>
+            </div>
           </div>
         </div>
       )}
