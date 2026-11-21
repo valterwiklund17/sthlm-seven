@@ -1,5 +1,5 @@
 type GalleryItem = {
-  src: string
+  path: string
   label: string
   isWinner?: boolean
   objectPosition?: string
@@ -7,26 +7,31 @@ type GalleryItem = {
 
 const items: GalleryItem[] = [
   {
-    src: 'https://mukmpfrvtiiebzpmjpwg.supabase.co/storage/v1/object/public/assets/SthlmSeven-PK-Zinken034.jpeg',
+    path: 'SthlmSeven-PK-Zinken034.jpeg',
     label: 'GYMNASIEMÄSTERSKAPET · ZINKENSDAMMS IP (19 SEP)',
   },
   {
-    src: 'https://mukmpfrvtiiebzpmjpwg.supabase.co/storage/v1/object/public/assets/SthlmSeven-PK-Zinken095.jpeg',
+    path: 'SthlmSeven-PK-Zinken095.jpeg',
     label: 'VINNARE: SPIRA TEORETISKA GYMNASIUM · ZINKENSDAMMS IP',
     isWinner: true,
     objectPosition: 'object-[center_25%]',
   },
   {
-    src: 'https://mukmpfrvtiiebzpmjpwg.supabase.co/storage/v1/object/public/assets/IMG_0477.jpeg',
+    path: 'IMG_0477.jpeg',
     label: 'STHLM SEVEN · ÄRVINGE BP (30 AUG)',
   },
   {
-    src: 'https://mukmpfrvtiiebzpmjpwg.supabase.co/storage/v1/object/public/assets/IMG_1236.jpeg',
+    path: 'IMG_1236.jpeg',
     label: 'VINNARE: KTH FC · ÄRVINGE BP',
     isWinner: true,
     objectPosition: 'object-[center_25%]',
   },
 ]
+
+function assetUrl(filename: string) {
+  const base = import.meta.env.VITE_SUPABASE_URL
+  return `${base}/storage/v1/object/public/assets/${filename}`
+}
 
 export function PreviousTournaments() {
   return (
@@ -39,11 +44,11 @@ export function PreviousTournaments() {
         <div className="mt-6 grid grid-cols-1 gap-3 min-[360px]:grid-cols-2 md:mt-8 md:gap-4">
           {items.map((item) => (
             <article
-              key={item.src}
+              key={item.path}
               className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-white/8 bg-surface"
             >
               <img
-                src={item.src}
+                src={assetUrl(item.path)}
                 alt={item.label}
                 loading="lazy"
                 className={`h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] ${item.objectPosition ?? 'object-center'}`}

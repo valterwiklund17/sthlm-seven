@@ -6,20 +6,17 @@ type Partner = {
 
 const footerTextClass = 'text-sm font-medium text-muted'
 
-const ASSETS_BASE =
-  'https://mukmpfrvtiiebzpmjpwg.supabase.co/storage/v1/object/public/assets'
-
 const partners: Partner[] = [
   {
     name: 'ViSes',
     href: 'https://apps.apple.com/se/app/vises-v%C3%A4nner-upplevelser/id6759677282',
-    logoSrc: `${ASSETS_BASE}/vises_logo.png`,
+    logoSrc: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/vises_logo.png`,
   },
   // Temporarily hidden until a new EF Education First agreement is signed.
   // {
   //   name: 'EF Education First',
   //   href: 'https://www.ef.se',
-  //   logoSrc: `${ASSETS_BASE}/${encodeURIComponent('JPG-EF-Logos_EF Education First Black-Photoroom.png')}`,
+  //   logoSrc: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/${encodeURIComponent('JPG-EF-Logos_EF Education First Black-Photoroom.png')}`,
   // },
 ]
 

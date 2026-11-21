@@ -3,6 +3,11 @@
   publish = "dist"
   functions = "netlify/functions"
 
+# Public Vite client vars are intentionally inlined into the browser bundle.
+# Omit them from Netlify secrets scanning so production deploys are not blocked.
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_URL,VITE_SUPABASE_ANON_KEY"
+
 [functions]
   node_bundler = "esbuild"
 
