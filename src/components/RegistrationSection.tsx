@@ -3,13 +3,13 @@ import { X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 
 const labelClassName =
-  'mb-2 block text-[11px] font-semibold uppercase tracking-wider text-zinc-400'
+  'mb-2 block font-display text-[13px] font-bold uppercase tracking-wider text-zinc-300'
 
 const inputClassName =
-  'h-11 w-full rounded-lg border border-white/12 bg-[#09090B] px-3.5 text-base text-white shadow-none outline-none transition-colors placeholder:text-zinc-600 focus:border-accent focus:ring-0 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
+  'form-input-night h-11 w-full rounded-lg border border-white/12 bg-[#09090B] px-3.5 py-2.5 text-sm font-normal text-white shadow-none outline-none transition-colors placeholder:text-sm placeholder:text-zinc-500 focus:border-accent focus:ring-0 disabled:cursor-not-allowed disabled:opacity-60'
 
 const inputErrorClassName =
-  'h-11 w-full rounded-lg border border-red-400/50 bg-[#09090B] px-3.5 text-base text-white shadow-none outline-none transition-colors placeholder:text-zinc-600 focus:border-accent focus:ring-0 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
+  'form-input-night h-11 w-full rounded-lg border border-red-400/50 bg-[#09090B] px-3.5 py-2.5 text-sm font-normal text-white shadow-none outline-none transition-colors placeholder:text-sm placeholder:text-zinc-500 focus:border-accent focus:ring-0 disabled:cursor-not-allowed disabled:opacity-60'
 
 const REQUIRED_FIELD_MSG = 'Detta fält är obligatoriskt'
 const CHECKBOX_MSG = 'Du måste godkänna villkoren för att fortsätta'
@@ -156,7 +156,7 @@ export function RegistrationSection() {
           Anmäl ditt lag
         </h2>
         <p className="mt-2 text-[13px] leading-relaxed text-zinc-400 sm:text-sm">
-          Begränsat till 12 lag · Anmälningsavgift 1&nbsp;500&nbsp;kr
+          Begränsat till 12 lag · Anmälningsavgift 1&nbsp;800&nbsp;kr
         </p>
 
         <form noValidate onSubmit={handleSubmit} className="mt-6 space-y-3 md:mt-8 md:space-y-5">
@@ -289,7 +289,7 @@ export function RegistrationSection() {
                 aria-invalid={Boolean(fieldErrors.termsAccepted)}
                 className="checkbox-night"
               />
-              <span className="text-sm leading-relaxed text-zinc-400">
+              <span className="text-xs leading-snug text-zinc-400">
                 Jag intygar att samtliga spelare går på gymnasiet och jag godkänner{' '}
                 <button
                   type="button"
@@ -316,7 +316,7 @@ export function RegistrationSection() {
             disabled={isSubmitting || isTournamentFull}
             className="w-full rounded-lg bg-accent px-8 py-4 font-display text-base font-bold uppercase tracking-wide text-black transition-[filter,opacity] hover:brightness-110 disabled:cursor-not-allowed disabled:bg-accent/35 disabled:text-black/50 disabled:hover:brightness-100 md:w-auto"
           >
-            {isSubmitting ? 'Behandlar...' : 'Gå till betalning (1500 kr)'}
+            {isSubmitting ? 'Behandlar...' : 'Gå till betalning (1 800 kr)'}
           </button>
         </form>
       </div>

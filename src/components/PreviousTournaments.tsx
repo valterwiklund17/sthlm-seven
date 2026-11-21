@@ -46,7 +46,23 @@ export function PreviousTournaments() {
           Tidigare turneringar
         </h2>
 
-        <div className="mt-6 grid grid-cols-1 gap-3 min-[360px]:grid-cols-2 md:mt-8 md:gap-4">
+        <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-400 sm:text-[13px]">
+          <span className="whitespace-nowrap">
+            Senast slutsåld på{' '}
+            <span className="font-medium text-zinc-200">4 dagar</span>
+          </span>
+          <span className="text-accent" aria-hidden>
+            •
+          </span>
+          <span className="whitespace-nowrap">
+            Uppmärksammad i{' '}
+            <span className="font-medium text-zinc-200">SportExpressen</span>
+            {' & '}
+            <span className="font-medium text-zinc-200">Mitt i</span>
+          </span>
+        </p>
+
+        <div className="mt-5 grid grid-cols-1 gap-3 min-[360px]:grid-cols-2 md:mt-6 md:gap-4">
           {items.map((item) => (
             <article
               key={item.path}

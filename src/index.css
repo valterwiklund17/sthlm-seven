@@ -89,3 +89,14 @@ body {
   cursor: not-allowed;
   opacity: 0.6;
 }
+
+input.form-input-night:-webkit-autofill,
+input.form-input-night:-webkit-autofill:hover,
+input.form-input-night:-webkit-autofill:focus,
+input.form-input-night:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff;
+  caret-color: #ffffff;
+  font-size: 14px !important;
+  transition: background-color 99999s ease-in-out 0s;
+  box-shadow: 0 0 0 1000px #09090b inset;
+}
