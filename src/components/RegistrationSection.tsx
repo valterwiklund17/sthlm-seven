@@ -1,6 +1,11 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
+import {
+  CURRENT_TOURNAMENT_ID,
+  MAX_TEAMS,
+  TOURNAMENT_FULL_MSG,
+} from '../lib/tournament'
 
 const labelClassName =
   'mb-2 block font-display text-[13px] font-bold uppercase tracking-wider text-zinc-300'
@@ -13,8 +18,6 @@ const inputErrorClassName =
 
 const REQUIRED_FIELD_MSG = 'Detta fält är obligatoriskt'
 const CHECKBOX_MSG = 'Du måste godkänna villkoren för att fortsätta'
-const TOURNAMENT_FULL_MSG =
-  'Maxgränsen på 12 lag är nådd. Turneringen är full.'
 
 type FieldErrors = {
   teamName?: string
@@ -40,9 +43,11 @@ export function RegistrationSection() {
     let cancelled = false
 
     async function checkCapacity() {
+      // Paid teams only: rows are inserted after Stripe checkout completes.
       const { count, error } = await supabase
         .from('teams')
         .select('*', { count: 'exact', head: true })
+        .eq('tournament_id', CURRENT_TOURNAMENT_ID)
 
       if (cancelled) return
 
@@ -51,7 +56,7 @@ export function RegistrationSection() {
         return
       }
 
-      if ((count ?? 0) >= 12) {
+      if ((count ?? 0) >= MAX_TEAMS) {
         setIsTournamentFull(true)
         setErrorMsg(TOURNAMENT_FULL_MSG)
       }
@@ -156,7 +161,7 @@ export function RegistrationSection() {
           Anmäl ditt lag
         </h2>
         <p className="mt-2 text-[13px] leading-relaxed text-zinc-400 sm:text-sm">
-          Begränsat till 12 lag · Anmälningsavgift 1&nbsp;800&nbsp;kr
+          Begränsat till {MAX_TEAMS} lag · Anmälningsavgift 1&nbsp;800&nbsp;kr
         </p>
 
         <form noValidate onSubmit={handleSubmit} className="mt-6 space-y-3 md:mt-8 md:space-y-5">

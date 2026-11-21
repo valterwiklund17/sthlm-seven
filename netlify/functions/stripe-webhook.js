@@ -1,5 +1,6 @@
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
+import { CURRENT_TOURNAMENT_ID, MAX_TEAMS } from './shared/tournament.ts'
 
 function getHeader(headers, name) {
   const target = name.toLowerCase()
@@ -167,12 +168,15 @@ export async function handler(event) {
     const captain_name = metadata.captain_name?.trim()
     const email = metadata.email?.trim()
     const phone = metadata.phone?.trim()
+    const tournament_id =
+      metadata.tournament_id?.trim() || CURRENT_TOURNAMENT_ID
 
     console.log('[stripe-webhook] Parsed team fields', {
       team_name,
       captain_name,
       email,
       phone,
+      tournament_id,
     })
 
     if (!team_name || !captain_name || !email || !phone) {
@@ -193,6 +197,7 @@ export async function handler(event) {
         captain_name,
         email,
         phone,
+        tournament_id,
       })
       .select()
 
@@ -227,7 +232,7 @@ export async function handler(event) {
         from: 'Sthlm Seven <info@sthlmseven.se>',
         to: email,
         subject: 'Anmälan bekräftad - Sthlm Seven',
-        html: `<div style="font-family: Arial, sans-serif; color: #333;"><img src="${logoUrl}" alt="Sthlm Seven Logo" width="120" style="margin-bottom: 20px;"/><p>Hej ${captain_name},</p><p>Tack för er anmälan! Laget <strong>${team_name}</strong> har nu säkrat en av de 8 platserna till Sthlm Seven High School Edition.</p><p>Turneringen spelas den 19 september på Zinkensdamms IP.</p><p>Vi ses där!</p><p>Vänliga hälsningar,<br>Sthlm Seven</p></div>`,
+        html: `<div style="font-family: Arial, sans-serif; color: #333;"><img src="${logoUrl}" alt="Sthlm Seven Logo" width="120" style="margin-bottom: 20px;"/><p>Hej ${captain_name},</p><p>Tack för er anmälan! Laget <strong>${team_name}</strong> har nu säkrat en av de ${MAX_TEAMS} platserna till Sthlm Seven Gymnasiemästerskapet – Night Session.</p><p>Turneringen spelas den 30 januari 2027 på Ultimate Football, Upplands Väsby.</p><p>Vi ses där!</p><p>Vänliga hälsningar,<br>Sthlm Seven</p></div>`,
       }
 
       try {

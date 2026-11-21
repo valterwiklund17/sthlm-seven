@@ -1,5 +1,10 @@
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
+import {
+  CURRENT_TOURNAMENT_ID,
+  MAX_TEAMS,
+  TOURNAMENT_FULL_MSG,
+} from './shared/tournament.ts'
 
 function getEnv(name) {
   const value = process.env[name]
@@ -38,24 +43,31 @@ async function createCheckoutSession(body, origin) {
 
   const supabase = getSupabaseClient()
 
+  // Only count paid/confirmed rows for the active tournament.
+  // Rows are inserted exclusively by the Stripe webhook after payment.
   const { count, error: countError } = await supabase
     .from('teams')
     .select('*', { count: 'exact', head: true })
+    .eq('tournament_id', CURRENT_TOURNAMENT_ID)
 
   if (countError) {
     console.error('[create-checkout-session] Count error:', countError)
     return { error: 'Något gick fel vid anmälan. Försök igen.', status: 500 }
   }
 
-  console.log('[create-checkout-session] Registered teams count:', count)
+  console.log('[create-checkout-session] Registered teams count:', {
+    tournament_id: CURRENT_TOURNAMENT_ID,
+    count,
+    max: MAX_TEAMS,
+  })
 
-  if ((count ?? 0) >= 12) {
+  if ((count ?? 0) >= MAX_TEAMS) {
     console.error(
       '[create-checkout-session] Tournament full — aborting before Stripe',
-      { count },
+      { count, tournament_id: CURRENT_TOURNAMENT_ID },
     )
     return {
-      error: 'Maxgränsen på 12 lag är nådd. Turneringen är full.',
+      error: TOURNAMENT_FULL_MSG,
       status: 400,
     }
   }
@@ -87,6 +99,7 @@ async function createCheckoutSession(body, origin) {
       captain_name: captain_name.trim(),
       email: email.trim(),
       phone: phone.trim(),
+      tournament_id: CURRENT_TOURNAMENT_ID,
     },
     line_items: lineItems,
     success_url: `${origin}/?success=true`,
@@ -126,6 +139,7 @@ export async function handler(event) {
       origin,
       hasTeamName: Boolean(body.team_name),
       hasEmail: Boolean(body.email),
+      tournament_id: CURRENT_TOURNAMENT_ID,
     })
 
     const result = await createCheckoutSession(body, origin)

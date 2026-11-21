@@ -1,5 +1,10 @@
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
+import {
+  CURRENT_TOURNAMENT_ID,
+  MAX_TEAMS,
+  TOURNAMENT_FULL_MSG,
+} from './tournament.ts'
 
 export type CreateCheckoutBody = {
   team_name: string
@@ -36,6 +41,16 @@ function getSupabaseClient() {
   return createClient(supabaseUrl, supabaseKey)
 }
 
+/** Count paid/confirmed teams for the active tournament only. */
+export async function countRegisteredTeams(
+  supabase: ReturnType<typeof getSupabaseClient>,
+) {
+  return supabase
+    .from('teams')
+    .select('*', { count: 'exact', head: true })
+    .eq('tournament_id', CURRENT_TOURNAMENT_ID)
+}
+
 export async function createCheckoutSession(
   body: CreateCheckoutBody,
   origin: string,
@@ -53,17 +68,15 @@ export async function createCheckoutSession(
 
   const supabase = getSupabaseClient()
 
-  const { count, error: countError } = await supabase
-    .from('teams')
-    .select('*', { count: 'exact', head: true })
+  const { count, error: countError } = await countRegisteredTeams(supabase)
 
   if (countError) {
     return { error: 'Något gick fel vid anmälan. Försök igen.', status: 500 }
   }
 
-  if ((count ?? 0) >= 12) {
+  if ((count ?? 0) >= MAX_TEAMS) {
     return {
-      error: 'Maxgränsen på 12 lag är nådd. Turneringen är full.',
+      error: TOURNAMENT_FULL_MSG,
       status: 400,
     }
   }
@@ -95,6 +108,7 @@ export async function createCheckoutSession(
       captain_name: captain_name.trim(),
       email: email.trim(),
       phone: phone.trim(),
+      tournament_id: CURRENT_TOURNAMENT_ID,
     },
     line_items: lineItems,
     success_url: `${origin}/?success=true`,
@@ -152,6 +166,8 @@ export async function handleStripeWebhook(
     const captain_name = metadata.captain_name?.trim()
     const email = metadata.email?.trim()
     const phone = metadata.phone?.trim()
+    const tournament_id =
+      metadata.tournament_id?.trim() || CURRENT_TOURNAMENT_ID
 
     if (!team_name || !captain_name || !email || !phone) {
       console.error('[stripe-webhook:local] Missing team metadata', {
@@ -169,6 +185,7 @@ export async function handleStripeWebhook(
         captain_name,
         email,
         phone,
+        tournament_id,
       })
       .select()
 
