@@ -6,8 +6,9 @@ export function Hero() {
           Sthlm Seven.
         </h1>
         <p className="mt-4 max-w-xl text-lg leading-snug text-gray-600 md:mt-6">
-          Stockholm Seven presenterar: Gymnasiemästerskapet. Stockholms mest
-          exklusiva 7v7-turnering för skollag. 8 gymnasieskolor. En mästare.
+          Sthlm Seven presenterar: Gymnasiemästerskapet – Night Session.
+          Stockholms mest exklusiva 7v7-nattcup inomhus på konstgräs för
+          skollag. 12 gymnasieskolor. En mästare.
         </p>
       </div>
     </section>

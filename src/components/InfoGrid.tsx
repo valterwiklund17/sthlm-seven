@@ -9,18 +9,19 @@ type InfoCard = {
 const cards: InfoCard[] = [
   {
     icon: MapPin,
-    title: '19 September, 14:00 - 18:00',
-    description: 'Zinkensdamms IP.',
+    title: '30 Januari 2027, 19:00 - 01:00',
+    description: 'Ultimate Football, Upplands Väsby (Inomhuskonstgräs)',
   },
   {
     icon: Shield,
-    title: '7v7 Format',
-    description: '8 lag, 2 grupper. Matchtid: 1x20 min.',
+    title: '7v7 Inomhus',
+    description: '12 lag, 3 grupper (8 till kvartsfinal). Matchtid: 1x18 min.',
   },
   {
     icon: Trophy,
-    title: 'Vinnaren tar allt',
-    description: '5000 kr + Exklusiva priser av EF i prispotten.',
+    title: 'Prispott',
+    description:
+      'Kontantpris och exklusiva sponsorpriser presenteras inom kort.',
   },
 ]
 
