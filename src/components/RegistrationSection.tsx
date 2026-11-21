@@ -3,10 +3,10 @@ import { X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 
 const inputClassName =
-  'h-11 w-full rounded-lg border border-gray-200 bg-white px-3.5 text-base text-slate-900 shadow-sm outline-none transition-colors placeholder:text-gray-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
+  'h-11 w-full rounded-lg border border-white/15 bg-night px-3.5 text-base text-ink shadow-none outline-none transition-colors placeholder:text-muted/70 focus:border-accent focus:ring-2 focus:ring-accent/40 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
 
 const inputErrorClassName =
-  'h-11 w-full rounded-lg border border-red-300 bg-white px-3.5 text-base text-slate-900 shadow-sm outline-none transition-colors placeholder:text-gray-400 focus:border-amber-500 focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
+  'h-11 w-full rounded-lg border border-red-400/50 bg-night px-3.5 text-base text-ink shadow-none outline-none transition-colors placeholder:text-muted/70 focus:border-accent focus:ring-2 focus:ring-accent/40 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
 
 const REQUIRED_FIELD_MSG = 'Detta fält är obligatoriskt'
 const CHECKBOX_MSG = 'Du måste godkänna villkoren för att fortsätta'
@@ -146,13 +146,13 @@ export function RegistrationSection() {
   return (
     <section
       id="anmalan"
-      className="scroll-mt-24 border-t border-gray-200 bg-slate-50 px-4 pt-10 pb-6 md:scroll-mt-28 md:px-8 md:pt-12 md:pb-8"
+      className="scroll-mt-24 border-t border-white/8 bg-night px-4 pt-10 pb-10 md:scroll-mt-28 md:px-8 md:pt-14 md:pb-14"
     >
-      <div className="mx-auto max-w-xl">
-        <h2 className="font-display text-3xl font-bold tracking-tight text-black">
+      <div className="mx-auto max-w-xl rounded-xl border border-white/8 bg-surface p-5 md:p-8">
+        <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-ink">
           Anmäl ditt lag
         </h2>
-        <p className="mt-2 text-base text-gray-600">
+        <p className="mt-2 text-base text-muted">
           Begränsat till 12 lag. Anmälningsavgift 1500&nbsp;kr.
         </p>
 
@@ -160,7 +160,7 @@ export function RegistrationSection() {
           {errorMsg && (
             <div
               role="alert"
-              className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
+              className="rounded-lg border border-red-500/35 bg-red-950/50 px-4 py-3 text-sm font-medium text-red-300"
             >
               {errorMsg}
             </div>
@@ -169,7 +169,7 @@ export function RegistrationSection() {
           <div>
             <label
               htmlFor="lagnamn"
-              className="mb-2 block text-sm font-semibold text-slate-900"
+              className="mb-2 block text-sm font-semibold text-muted"
             >
               Lagnamn
             </label>
@@ -190,14 +190,14 @@ export function RegistrationSection() {
               placeholder="Ditt lags namn"
             />
             {fieldErrors.teamName && (
-              <p className="mt-2 text-sm text-red-600">{fieldErrors.teamName}</p>
+              <p className="mt-2 text-sm text-red-400">{fieldErrors.teamName}</p>
             )}
           </div>
 
           <div>
             <label
               htmlFor="lagkapten"
-              className="mb-2 block text-sm font-semibold text-slate-900"
+              className="mb-2 block text-sm font-semibold text-muted"
             >
               Lagkapten
             </label>
@@ -218,14 +218,14 @@ export function RegistrationSection() {
               placeholder="Fullständigt namn"
             />
             {fieldErrors.captain && (
-              <p className="mt-2 text-sm text-red-600">{fieldErrors.captain}</p>
+              <p className="mt-2 text-sm text-red-400">{fieldErrors.captain}</p>
             )}
           </div>
 
           <div>
             <label
               htmlFor="telefonnummer"
-              className="mb-2 block text-sm font-semibold text-slate-900"
+              className="mb-2 block text-sm font-semibold text-muted"
             >
               Telefonnummer
             </label>
@@ -246,14 +246,14 @@ export function RegistrationSection() {
               placeholder="07X-XXX XX XX"
             />
             {fieldErrors.phone && (
-              <p className="mt-2 text-sm text-red-600">{fieldErrors.phone}</p>
+              <p className="mt-2 text-sm text-red-400">{fieldErrors.phone}</p>
             )}
           </div>
 
           <div>
             <label
               htmlFor="email"
-              className="mb-2 block text-sm font-semibold text-slate-900"
+              className="mb-2 block text-sm font-semibold text-muted"
             >
               Email
             </label>
@@ -274,7 +274,7 @@ export function RegistrationSection() {
               placeholder="namn@email.se"
             />
             {fieldErrors.email && (
-              <p className="mt-2 text-sm text-red-600">{fieldErrors.email}</p>
+              <p className="mt-2 text-sm text-red-400">{fieldErrors.email}</p>
             )}
           </div>
 
@@ -296,9 +296,9 @@ export function RegistrationSection() {
                   }
                 }}
                 aria-invalid={Boolean(fieldErrors.termsAccepted)}
-                className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 text-amber-500 focus:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60"
+                className="mt-1 h-4 w-4 shrink-0 rounded border-white/20 bg-night text-accent accent-accent focus:ring-accent disabled:cursor-not-allowed disabled:opacity-60"
               />
-              <span className="text-sm leading-relaxed text-slate-900">
+              <span className="text-sm leading-relaxed text-muted">
                 Jag intygar att samtliga spelare går på gymnasiet och jag godkänner{' '}
                 <button
                   type="button"
@@ -306,7 +306,7 @@ export function RegistrationSection() {
                     e.preventDefault()
                     setIsTermsOpen(true)
                   }}
-                  className="font-semibold text-slate-900 underline underline-offset-2 transition-colors hover:text-amber-600"
+                  className="font-semibold text-ink underline underline-offset-2 transition-colors hover:text-accent"
                 >
                   anmälningsvillkoren
                 </button>
@@ -314,7 +314,7 @@ export function RegistrationSection() {
               </span>
             </label>
             {fieldErrors.termsAccepted && (
-              <p className="mt-2 text-sm text-red-600">
+              <p className="mt-2 text-sm text-red-400">
                 {fieldErrors.termsAccepted}
               </p>
             )}
@@ -323,7 +323,7 @@ export function RegistrationSection() {
           <button
             type="submit"
             disabled={isSubmitting || isTournamentFull}
-            className="w-full rounded-lg bg-amber-500 px-8 py-4 text-base font-semibold text-slate-900 transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
+            className="w-full rounded-lg bg-accent px-8 py-4 text-base font-bold text-black transition-colors hover:bg-[#ffaa1a] disabled:cursor-not-allowed disabled:bg-accent/35 disabled:text-black/50 disabled:hover:bg-accent/35 md:w-auto"
           >
             {isSubmitting ? 'Behandlar...' : 'Gå till betalning (1500 kr)'}
           </button>
@@ -332,7 +332,7 @@ export function RegistrationSection() {
 
       {isTermsOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-6"
           role="presentation"
           onClick={() => setIsTermsOpen(false)}
         >
@@ -340,29 +340,29 @@ export function RegistrationSection() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="terms-modal-title"
-            className="relative flex max-h-[85vh] w-full max-w-lg flex-col overflow-hidden rounded-xl bg-white shadow-lg"
+            className="relative flex max-h-[85vh] w-full max-w-lg flex-col overflow-hidden rounded-xl border border-white/8 bg-surface shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-start justify-between border-b border-gray-100 px-6 pb-4 pt-6 md:px-8">
+            <div className="flex items-start justify-between border-b border-white/8 px-6 pb-4 pt-6 md:px-8">
               <h3
                 id="terms-modal-title"
-                className="pr-8 font-display text-2xl tracking-tight text-black"
+                className="pr-8 font-display text-2xl uppercase tracking-tight text-ink"
               >
                 Anmälningsvillkor
               </h3>
               <button
                 type="button"
                 onClick={() => setIsTermsOpen(false)}
-                className="rounded-md p-1 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                className="rounded-md p-1 text-muted transition-colors hover:bg-white/5 hover:text-ink"
                 aria-label="Stäng"
               >
                 <X className="h-5 w-5" strokeWidth={1.75} />
               </button>
             </div>
 
-            <div className="max-h-[70vh] flex-1 overflow-y-auto px-6 py-5 text-sm leading-relaxed text-slate-900 md:px-8 md:text-base">
+            <div className="max-h-[70vh] flex-1 overflow-y-auto px-6 py-5 text-sm leading-relaxed text-muted md:px-8 md:text-base">
               <section className="space-y-2">
-                <h4 className="font-bold text-black">
+                <h4 className="font-bold text-ink">
                   1. Anmälan och Betalning
                 </h4>
                 <ul className="list-disc space-y-1.5 pl-5">
@@ -375,7 +375,7 @@ export function RegistrationSection() {
               </section>
 
               <section className="mt-6 space-y-2">
-                <h4 className="font-bold text-black">2. Ansvarsfriskrivning</h4>
+                <h4 className="font-bold text-ink">2. Ansvarsfriskrivning</h4>
                 <ul className="list-disc space-y-1.5 pl-5">
                   <li>Allt deltagande sker helt på egen risk.</li>
                   <li>
@@ -387,7 +387,7 @@ export function RegistrationSection() {
               </section>
 
               <section className="mt-6 space-y-2">
-                <h4 className="font-bold text-black">
+                <h4 className="font-bold text-ink">
                   3. Lagkaptenens ansvar
                 </h4>
                 <ul className="list-disc space-y-1.5 pl-5">
@@ -403,7 +403,7 @@ export function RegistrationSection() {
               </section>
 
               <section className="mt-6 space-y-2">
-                <h4 className="font-bold text-black">
+                <h4 className="font-bold text-ink">
                   4. Spelregler &amp; Format
                 </h4>
                 <ul className="list-disc space-y-1.5 pl-5">
@@ -424,7 +424,7 @@ export function RegistrationSection() {
               </section>
 
               <section className="mt-6 space-y-2 pb-2">
-                <h4 className="font-bold text-black">
+                <h4 className="font-bold text-ink">
                   5. Disciplin, Supportrar och Fair Play
                 </h4>
                 <ul className="list-disc space-y-1.5 pl-5">
@@ -447,11 +447,11 @@ export function RegistrationSection() {
               </section>
             </div>
 
-            <div className="sticky bottom-0 border-t border-gray-100 bg-white px-6 py-4 md:px-8">
+            <div className="sticky bottom-0 border-t border-white/8 bg-surface px-6 py-4 md:px-8">
               <button
                 type="button"
                 onClick={() => setIsTermsOpen(false)}
-                className="w-full rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-50"
+                className="w-full rounded-lg border border-white/15 bg-night px-5 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-white/25 hover:bg-white/5"
               >
                 Stäng
               </button>

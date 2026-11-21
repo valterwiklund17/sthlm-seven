@@ -4,19 +4,19 @@ type NavbarProps = {
 
 export function Navbar({ hideCta = false }: NavbarProps) {
   return (
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-white/8 bg-night/90 backdrop-blur-md">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2.5 md:px-8 md:py-3">
         <a href="/" className="inline-flex items-center" aria-label="STHLM SEVEN">
           <img
             src="/sthlmsevenlogo.jpg"
             alt="STHLM SEVEN"
-            className="h-11 w-auto object-contain md:h-14"
+            className="h-11 w-auto rounded-sm object-contain md:h-14"
           />
         </a>
         {!hideCta && (
           <a
             href="#anmalan"
-            className="rounded-md bg-black px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            className="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-black transition-colors hover:bg-[#ffaa1a]"
           >
             Anmäl lag
           </a>

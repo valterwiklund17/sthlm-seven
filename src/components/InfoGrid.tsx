@@ -1,53 +1,50 @@
-import { MapPin, Shield, Trophy, type LucideIcon } from 'lucide-react'
-
-type InfoCard = {
-  icon: LucideIcon
-  title: string
-  description: string
+type SpecCell = {
+  label: string
+  value: string
+  detail?: string
 }
 
-const cards: InfoCard[] = [
+const cells: SpecCell[] = [
   {
-    icon: MapPin,
-    title: '30 Januari 2027, 19:00 - 01:00',
-    description: 'Ultimate Football, Upplands Väsby (Inomhuskonstgräs)',
+    label: 'Datum & tid',
+    value: '30 Januari 2027, 19:00 - 01:00',
   },
   {
-    icon: Shield,
-    title: '7v7 Inomhus',
-    description: '12 lag, 3 grupper (8 till kvartsfinal). Matchtid: 1x18 min.',
+    label: 'Plats',
+    value: 'Ultimate Football, Upplands Väsby (Inomhuskonstgräs)',
   },
   {
-    icon: Trophy,
-    title: 'Prispott',
-    description:
-      'Kontantpris och exklusiva sponsorpriser presenteras inom kort.',
+    label: 'Format',
+    value: '7v7 Inomhus',
+    detail: '12 lag, 3 grupper (8 till kvartsfinal). Matchtid: 1x18 min.',
+  },
+  {
+    label: 'Prispott',
+    value: 'Kontantpris och exklusiva sponsorpriser presenteras inom kort.',
   },
 ]
 
 export function InfoGrid() {
   return (
-    <section className="bg-white">
-      <div className="mx-auto max-w-6xl px-4 pb-10 pt-2 md:px-8 md:pb-20 md:pt-8">
-        <div className="grid gap-2 md:grid-cols-3 md:gap-6">
-          {cards.map(({ icon: Icon, title, description }) => (
+    <section className="bg-night">
+      <div className="mx-auto max-w-6xl px-4 pb-10 pt-2 md:px-8 md:pb-14 md:pt-4">
+        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-white/8 bg-white/8">
+          {cells.map((cell) => (
             <article
-              key={title}
-              className="flex flex-row items-start gap-3 rounded-lg border border-gray-200 bg-gray-50 p-4 shadow-sm md:flex-col md:gap-0 md:p-6"
+              key={cell.label}
+              className="bg-surface px-3.5 py-4 md:px-5 md:py-5"
             >
-              <Icon
-                className="mt-0.5 h-5 w-5 shrink-0 text-amber-500 md:mb-5 md:mt-0 md:h-6 md:w-6"
-                strokeWidth={1.75}
-                aria-hidden
-              />
-              <div className="min-w-0">
-                <h2 className="font-display text-base tracking-tight text-black md:text-xl">
-                  {title}
-                </h2>
-                <p className="mt-1 text-sm leading-snug text-gray-500 md:mt-2 md:leading-relaxed">
-                  {description}
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-accent md:text-xs">
+                {cell.label}
+              </p>
+              <p className="mt-2 font-display text-base font-bold uppercase leading-snug tracking-tight text-ink md:text-xl">
+                {cell.value}
+              </p>
+              {cell.detail ? (
+                <p className="mt-1.5 text-sm leading-snug text-muted">
+                  {cell.detail}
                 </p>
-              </div>
+              ) : null}
             </article>
           ))}
         </div>
