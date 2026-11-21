@@ -3,7 +3,9 @@ import { createClient } from '@supabase/supabase-js'
 import {
   CURRENT_TOURNAMENT_ID,
   MAX_TEAMS,
+  REGISTRATION_FEE_ORE,
   TOURNAMENT_FULL_MSG,
+  TOURNAMENT_NAME,
 } from './tournament.ts'
 
 export type CreateCheckoutBody = {
@@ -83,21 +85,19 @@ export async function createCheckoutSession(
 
   const stripe = new Stripe(getEnv('STRIPE_SECRET_KEY'))
 
-  const priceId = process.env.STRIPE_PRICE_ID
-  const lineItems = priceId
-    ? [{ price: priceId, quantity: 1 }]
-    : [
-        {
-          price_data: {
-            currency: 'sek',
-            unit_amount: 150000,
-            product_data: {
-              name: 'Sthlm Seven – Anmälningsavgift',
-            },
-          },
-          quantity: 1,
+  // Amount is controlled in code (REGISTRATION_FEE_ORE), not via STRIPE_PRICE_ID.
+  const lineItems = [
+    {
+      price_data: {
+        currency: 'sek',
+        unit_amount: REGISTRATION_FEE_ORE,
+        product_data: {
+          name: `Sthlm Seven – ${TOURNAMENT_NAME}`,
         },
-      ]
+      },
+      quantity: 1,
+    },
+  ]
 
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',

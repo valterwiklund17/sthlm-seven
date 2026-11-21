@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 import {
   CURRENT_TOURNAMENT_ID,
   MAX_TEAMS,
+  REGISTRATION_FEE_LABEL,
   TOURNAMENT_FULL_MSG,
 } from '../lib/tournament'
 
@@ -161,7 +162,8 @@ export function RegistrationSection() {
           Anmäl ditt lag
         </h2>
         <p className="mt-2 text-[13px] leading-relaxed text-zinc-400 sm:text-sm">
-          Begränsat till {MAX_TEAMS} lag · Anmälningsavgift 1&nbsp;800&nbsp;kr
+          Begränsat till {MAX_TEAMS} lag · Anmälningsavgift{' '}
+          {REGISTRATION_FEE_LABEL}
         </p>
 
         <form noValidate onSubmit={handleSubmit} className="mt-6 space-y-3 md:mt-8 md:space-y-5">
@@ -321,7 +323,9 @@ export function RegistrationSection() {
             disabled={isSubmitting || isTournamentFull}
             className="w-full rounded-lg bg-accent px-8 py-4 font-display text-base font-bold uppercase tracking-wide text-black transition-[filter,opacity] hover:brightness-110 disabled:cursor-not-allowed disabled:bg-accent/35 disabled:text-black/50 disabled:hover:brightness-100 md:w-auto"
           >
-            {isSubmitting ? 'Behandlar...' : 'Gå till betalning (1 800 kr)'}
+            {isSubmitting
+              ? 'Behandlar...'
+              : `Gå till betalning (${REGISTRATION_FEE_LABEL})`}
           </button>
         </form>
       </div>

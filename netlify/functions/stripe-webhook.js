@@ -1,6 +1,16 @@
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
-import { CURRENT_TOURNAMENT_ID, MAX_TEAMS } from './shared/tournament.ts'
+import {
+  CURRENT_TOURNAMENT_ID,
+  MAX_TEAMS,
+  TOURNAMENT_DATE_LABEL,
+  TOURNAMENT_DOORS_LABEL,
+  TOURNAMENT_NAME,
+  TOURNAMENT_TIME_LABEL,
+  TOURNAMENT_VENUE_CITY,
+  TOURNAMENT_VENUE_DETAIL,
+  TOURNAMENT_VENUE_NAME,
+} from './shared/tournament.ts'
 
 function getHeader(headers, name) {
   const target = name.toLowerCase()
@@ -231,8 +241,21 @@ export async function handler(event) {
       const emailPayload = {
         from: 'Sthlm Seven <info@sthlmseven.se>',
         to: email,
-        subject: 'Anmälan bekräftad - Sthlm Seven',
-        html: `<div style="font-family: Arial, sans-serif; color: #333;"><img src="${logoUrl}" alt="Sthlm Seven Logo" width="120" style="margin-bottom: 20px;"/><p>Hej ${captain_name},</p><p>Tack för er anmälan! Laget <strong>${team_name}</strong> har nu säkrat en av de ${MAX_TEAMS} platserna till Sthlm Seven Gymnasiemästerskapet – Night Session.</p><p>Turneringen spelas den 30 januari 2027 på Ultimate Football, Upplands Väsby.</p><p>Vi ses där!</p><p>Vänliga hälsningar,<br>Sthlm Seven</p></div>`,
+        subject: `Anmälan bekräftad – ${TOURNAMENT_NAME}`,
+        html: `<div style="font-family: Arial, Helvetica, sans-serif; color: #111; line-height: 1.5; max-width: 560px;">
+<img src="${logoUrl}" alt="Sthlm Seven Logo" width="120" style="margin-bottom: 20px;"/>
+<p>Hej ${captain_name},</p>
+<p>Tack för er anmälan! Laget <strong>${team_name}</strong> har nu säkrat en av de ${MAX_TEAMS} platserna till <strong>Sthlm Seven – ${TOURNAMENT_NAME}</strong>.</p>
+<p style="margin: 20px 0 8px;"><strong>När &amp; var</strong></p>
+<ul style="padding-left: 18px; margin: 0;">
+  <li>Datum: ${TOURNAMENT_DATE_LABEL}</li>
+  <li>Tid: ${TOURNAMENT_TIME_LABEL} (${TOURNAMENT_DOORS_LABEL})</li>
+  <li>Plats: ${TOURNAMENT_VENUE_NAME}, ${TOURNAMENT_VENUE_CITY}</li>
+  <li>Underlag: ${TOURNAMENT_VENUE_DETAIL}</li>
+</ul>
+<p style="margin-top: 20px;">Vi ses där!</p>
+<p>Vänliga hälsningar,<br/>Sthlm Seven</p>
+</div>`,
       }
 
       try {
