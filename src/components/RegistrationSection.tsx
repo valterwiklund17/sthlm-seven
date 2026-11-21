@@ -2,11 +2,14 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 
+const labelClassName =
+  'mb-2 block text-[11px] font-semibold uppercase tracking-wider text-zinc-400'
+
 const inputClassName =
-  'h-11 w-full rounded-lg border border-white/15 bg-night px-3.5 text-base text-ink shadow-none outline-none transition-colors placeholder:text-muted/70 focus:border-accent focus:ring-2 focus:ring-accent/40 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
+  'h-11 w-full rounded-lg border border-white/12 bg-[#09090B] px-3.5 text-base text-white shadow-none outline-none transition-colors placeholder:text-zinc-600 focus:border-accent focus:ring-0 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
 
 const inputErrorClassName =
-  'h-11 w-full rounded-lg border border-red-400/50 bg-night px-3.5 text-base text-ink shadow-none outline-none transition-colors placeholder:text-muted/70 focus:border-accent focus:ring-2 focus:ring-accent/40 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
+  'h-11 w-full rounded-lg border border-red-400/50 bg-[#09090B] px-3.5 text-base text-white shadow-none outline-none transition-colors placeholder:text-zinc-600 focus:border-accent focus:ring-0 disabled:cursor-not-allowed disabled:opacity-60 md:h-12 md:px-4'
 
 const REQUIRED_FIELD_MSG = 'Detta fält är obligatoriskt'
 const CHECKBOX_MSG = 'Du måste godkänna villkoren för att fortsätta'
@@ -148,12 +151,12 @@ export function RegistrationSection() {
       id="anmalan"
       className="scroll-mt-24 border-t border-white/8 bg-night px-4 pt-10 pb-10 md:scroll-mt-28 md:px-8 md:pt-14 md:pb-14"
     >
-      <div className="mx-auto max-w-xl rounded-xl border border-white/8 bg-surface p-5 md:p-8">
+      <div className="mx-auto max-w-xl rounded-xl border border-white/10 border-t-2 border-t-accent bg-[#111114] p-5 md:p-8">
         <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-ink">
           Anmäl ditt lag
         </h2>
-        <p className="mt-2 text-base text-muted">
-          Begränsat till 12 lag. Anmälningsavgift 1500&nbsp;kr.
+        <p className="mt-2 text-[13px] leading-relaxed text-zinc-400 sm:text-sm">
+          Begränsat till 12 lag · Anmälningsavgift 1&nbsp;500&nbsp;kr
         </p>
 
         <form noValidate onSubmit={handleSubmit} className="mt-6 space-y-3 md:mt-8 md:space-y-5">
@@ -167,10 +170,7 @@ export function RegistrationSection() {
           )}
 
           <div>
-            <label
-              htmlFor="lagnamn"
-              className="mb-2 block text-sm font-semibold text-muted"
-            >
+            <label htmlFor="lagnamn" className={labelClassName}>
               Lagnamn
             </label>
             <input
@@ -195,10 +195,7 @@ export function RegistrationSection() {
           </div>
 
           <div>
-            <label
-              htmlFor="lagkapten"
-              className="mb-2 block text-sm font-semibold text-muted"
-            >
+            <label htmlFor="lagkapten" className={labelClassName}>
               Lagkapten
             </label>
             <input
@@ -223,10 +220,7 @@ export function RegistrationSection() {
           </div>
 
           <div>
-            <label
-              htmlFor="telefonnummer"
-              className="mb-2 block text-sm font-semibold text-muted"
-            >
+            <label htmlFor="telefonnummer" className={labelClassName}>
               Telefonnummer
             </label>
             <input
@@ -251,10 +245,7 @@ export function RegistrationSection() {
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="mb-2 block text-sm font-semibold text-muted"
-            >
+            <label htmlFor="email" className={labelClassName}>
               Email
             </label>
             <input
@@ -296,9 +287,9 @@ export function RegistrationSection() {
                   }
                 }}
                 aria-invalid={Boolean(fieldErrors.termsAccepted)}
-                className="mt-1 h-4 w-4 shrink-0 rounded border-white/20 bg-night text-accent accent-accent focus:ring-accent disabled:cursor-not-allowed disabled:opacity-60"
+                className="checkbox-night"
               />
-              <span className="text-sm leading-relaxed text-muted">
+              <span className="text-sm leading-relaxed text-zinc-400">
                 Jag intygar att samtliga spelare går på gymnasiet och jag godkänner{' '}
                 <button
                   type="button"
@@ -323,7 +314,7 @@ export function RegistrationSection() {
           <button
             type="submit"
             disabled={isSubmitting || isTournamentFull}
-            className="w-full rounded-lg bg-accent px-8 py-4 text-base font-bold text-black transition-colors hover:bg-[#ffaa1a] disabled:cursor-not-allowed disabled:bg-accent/35 disabled:text-black/50 disabled:hover:bg-accent/35 md:w-auto"
+            className="w-full rounded-lg bg-accent px-8 py-4 font-display text-base font-bold uppercase tracking-wide text-black transition-[filter,opacity] hover:brightness-110 disabled:cursor-not-allowed disabled:bg-accent/35 disabled:text-black/50 disabled:hover:brightness-100 md:w-auto"
           >
             {isSubmitting ? 'Behandlar...' : 'Gå till betalning (1500 kr)'}
           </button>
