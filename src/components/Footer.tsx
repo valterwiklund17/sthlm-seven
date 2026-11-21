@@ -12,11 +12,12 @@ const partners: Partner[] = [
     href: 'https://apps.apple.com/se/app/vises-v%C3%A4nner-upplevelser/id6759677282',
     logoSrc: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/vises_logo.png`,
   },
-  {
-    name: 'EF Education First',
-    href: 'https://www.ef.se',
-    logoSrc: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/${encodeURIComponent('JPG-EF-Logos_EF Education First Black-Photoroom.png')}`,
-  },
+  // Temporarily hidden until a new EF Education First agreement is signed.
+  // {
+  //   name: 'EF Education First',
+  //   href: 'https://www.ef.se',
+  //   logoSrc: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/assets/${encodeURIComponent('JPG-EF-Logos_EF Education First Black-Photoroom.png')}`,
+  // },
 ]
 
 export function Footer() {
@@ -79,7 +80,7 @@ export function Footer() {
 
         {/* Level 3: Copyright */}
         <p className={`mt-8 text-center ${footerTextClass}`}>
-          © {new Date().getFullYear()} Sthlm Seven. Alla rättigheter förbehållna.
+          © 2026–2027 Sthlm Seven. Alla rättigheter förbehållna.
         </p>
       </div>
     </footer>

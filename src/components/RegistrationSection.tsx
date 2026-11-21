@@ -11,7 +11,7 @@ const inputErrorClassName =
 const REQUIRED_FIELD_MSG = 'Detta fält är obligatoriskt'
 const CHECKBOX_MSG = 'Du måste godkänna villkoren för att fortsätta'
 const TOURNAMENT_FULL_MSG =
-  'Maxgränsen på 8 lag är nådd. Turneringen är full.'
+  'Maxgränsen på 12 lag är nådd. Turneringen är full.'
 
 type FieldErrors = {
   teamName?: string
@@ -48,7 +48,7 @@ export function RegistrationSection() {
         return
       }
 
-      if ((count ?? 0) >= 8) {
+      if ((count ?? 0) >= 12) {
         setIsTournamentFull(true)
         setErrorMsg(TOURNAMENT_FULL_MSG)
       }
@@ -153,7 +153,7 @@ export function RegistrationSection() {
           Anmäl ditt lag
         </h2>
         <p className="mt-2 text-base text-gray-600">
-          Begränsat till 8 lag. Anmälningsavgift 1500&nbsp;kr.
+          Begränsat till 12 lag. Anmälningsavgift 1500&nbsp;kr.
         </p>
 
         <form noValidate onSubmit={handleSubmit} className="mt-6 space-y-3 md:mt-8 md:space-y-5">
