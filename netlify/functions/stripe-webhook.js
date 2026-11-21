@@ -168,11 +168,36 @@ export async function handler(event) {
 
     const session = stripeEvent.data.object
     const metadata = session.metadata ?? {}
+    const paymentStatus = session.payment_status
+    const amountTotal = session.amount_total
 
     console.log('[stripe-webhook] Extracting metadata', {
       sessionId: session.id,
+      paymentStatus,
+      amountTotal,
       metadata,
     })
+
+    // Accept normal paid checkouts and 100% promo / zero-amount sessions.
+    if (
+      paymentStatus !== 'paid' &&
+      paymentStatus !== 'no_payment_required'
+    ) {
+      console.log('[stripe-webhook] Skipping insert for payment_status', {
+        sessionId: session.id,
+        paymentStatus,
+        amountTotal,
+      })
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          received: true,
+          skipped: true,
+          payment_status: paymentStatus,
+        }),
+      }
+    }
 
     const team_name = metadata.team_name?.trim()
     const captain_name = metadata.captain_name?.trim()
@@ -187,6 +212,8 @@ export async function handler(event) {
       email,
       phone,
       tournament_id,
+      paymentStatus,
+      amountTotal,
     })
 
     if (!team_name || !captain_name || !email || !phone) {

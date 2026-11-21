@@ -156,11 +156,35 @@ export async function handleStripeWebhook(
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session
     const metadata = session.metadata ?? {}
+    const paymentStatus = session.payment_status
+    const amountTotal = session.amount_total
 
     console.log('[stripe-webhook:local] Metadata extracted', {
       sessionId: session.id,
+      paymentStatus,
+      amountTotal,
       metadata,
     })
+
+    // Accept normal paid checkouts and 100% promo / zero-amount sessions.
+    if (
+      paymentStatus !== 'paid' &&
+      paymentStatus !== 'no_payment_required'
+    ) {
+      console.log('[stripe-webhook:local] Skipping insert for payment_status', {
+        sessionId: session.id,
+        paymentStatus,
+        amountTotal,
+      })
+      return {
+        status: 200,
+        body: JSON.stringify({
+          received: true,
+          skipped: true,
+          payment_status: paymentStatus,
+        }),
+      }
+    }
 
     const team_name = metadata.team_name?.trim()
     const captain_name = metadata.captain_name?.trim()
@@ -192,6 +216,8 @@ export async function handleStripeWebhook(
     console.log('[stripe-webhook:local] Supabase insert response', {
       data,
       error: insertError,
+      paymentStatus,
+      amountTotal,
     })
 
     if (insertError) {
