@@ -1,6 +1,7 @@
 type GalleryItem = {
   path: string
-  label: string
+  title: string
+  subtitle: string
   isWinner?: boolean
   objectPosition?: string
 }
@@ -8,23 +9,27 @@ type GalleryItem = {
 const items: GalleryItem[] = [
   {
     path: 'SthlmSeven-PK-Zinken034.jpeg',
-    label: 'GYMNASIEMÄSTERSKAPET · ZINKENSDAMMS IP (19 SEP)',
+    title: 'Gymnasiemästerskapet',
+    subtitle: 'Zinkensdamms IP · 19 sep',
   },
   {
     path: 'SthlmSeven-PK-Zinken095.jpeg',
-    label: 'VINNARE: SPIRA TEORETISKA GYMNASIUM · ZINKENSDAMMS IP',
+    title: 'Spira Teoretiska',
+    subtitle: 'Zinkensdamms IP · 19 sep',
     isWinner: true,
-    objectPosition: 'object-[center_25%]',
+    objectPosition: 'object-[center_20%]',
   },
   {
     path: 'IMG_0477.jpeg',
-    label: 'STHLM SEVEN · ÄRVINGE BP (30 AUG)',
+    title: 'Sommarturneringen',
+    subtitle: 'Ärvinge BP · 30 aug',
   },
   {
     path: 'IMG_1236.jpeg',
-    label: 'VINNARE: KTH FC · ÄRVINGE BP',
+    title: 'KTH FC',
+    subtitle: 'Ärvinge BP · 30 aug',
     isWinner: true,
-    objectPosition: 'object-[center_25%]',
+    objectPosition: 'object-[center_20%]',
   },
 ]
 
@@ -45,26 +50,29 @@ export function PreviousTournaments() {
           {items.map((item) => (
             <article
               key={item.path}
-              className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-white/8 bg-surface"
+              className="flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-[#111114]"
             >
-              <img
-                src={assetUrl(item.path)}
-                alt={item.label}
-                loading="lazy"
-                className={`h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] ${item.objectPosition ?? 'object-center'}`}
-              />
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"
-              />
-              {item.isWinner ? (
-                <span className="absolute left-3 top-3 rounded-full border border-accent/40 bg-accent px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-black md:left-4 md:top-4 md:text-[11px]">
-                  Vinnare
-                </span>
-              ) : null}
-              <p className="absolute inset-x-0 bottom-0 p-3 text-[11px] font-semibold uppercase leading-snug tracking-[0.06em] text-white md:p-4 md:text-xs">
-                {item.label}
-              </p>
+              <div className="relative aspect-[4/3] w-full overflow-hidden">
+                <img
+                  src={assetUrl(item.path)}
+                  alt={item.title}
+                  loading="lazy"
+                  className={`h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-[1.02] ${item.objectPosition ?? 'object-center'}`}
+                />
+              </div>
+              <div className="p-2.5 sm:p-3">
+                {item.isWinner ? (
+                  <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-accent">
+                    Vinnare
+                  </p>
+                ) : null}
+                <h3 className="font-display text-base font-bold uppercase leading-tight tracking-tight text-ink sm:text-lg">
+                  {item.title}
+                </h3>
+                <p className="mt-0.5 text-[11px] leading-snug text-zinc-400 sm:text-xs">
+                  {item.subtitle}
+                </p>
+              </div>
             </article>
           ))}
         </div>
